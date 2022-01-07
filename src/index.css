@@ -7,7 +7,142 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+input{
+  text-align: center;
 }
+
+body{
+  
+  font-family: Verdana, Tahoma, sans-serif;
+  background-color: #a0c2dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  color: white;
+
+}
+
+
+
+.App {
+
+  background-color: #475387;
+  width: 750px;
+  min-height: 500px;
+  height: min-content;
+  border-radius: 15px;
+  padding: 20px;
+  padding-left: 20px;
+  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+    
+
+}
+
+.Menu-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.M_header{
+  font-family: 'Rubik', sans-serif;
+  font-size: 55px;
+  font-style: italic;
+  
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  position: relative;
+
+
+}
+
+.M_code_entry{
+}
+
+.entry-1{
+  min-height: 75px;
+  max-width: 250px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 2;
+}
+.entry-1::-webkit-input-placeholder {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 2;
+}
+
+
+
+
+
+
+
+
+.buttons {
+  cursor: pointer;
+  margin: 10%;
+  text-align: center;
+}
+
+.btn-hover {
+  width: 200px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 20px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+
+  border-radius: 50px;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.btn-hover:hover {
+  background-position: 100% 0;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+  outline: none;
+}
+
+.btn-hover.color-7 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: large;
+  font-weight: bold;
+  background-image: linear-gradient(to right, #6253e1, #852D91, #A3A1FF, #F24645);
+  box-shadow: 0 4px 15px 0 rgba(126, 52, 161, 0.75);
+
+  position: relative;
+  top: -5px;
+
+}
+.btn-hover.color-8 {
+ 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: large;
+  font-weight: bold;
+  background-image: linear-gradient(to right, #29323c, #485563, #2b5876, #4e4376);
+  box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+}
+
+
+
+
+
