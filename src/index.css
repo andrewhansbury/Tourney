@@ -122,7 +122,7 @@ body{
   outline: none;
 }
 
-.btn-hover.color-7 {
+.btn-hover.join-button {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: large;
   font-weight: bold;
@@ -133,7 +133,7 @@ body{
   top: -5px;
 
 }
-.btn-hover.color-8 {
+.btn-hover.create-button {
  
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: large;
