@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import Form from './Form.js'
 
 
 
@@ -16,7 +17,6 @@ function App() {
 	}
 
 	function handleCreateButtonClick () {
-	
 		setCreateScreenState(true);
 		setMenuScreenState(false);
 		  
@@ -29,8 +29,49 @@ function App() {
 	}
 
 	function createScreen(){
+
+
 		return (
-			<h1> Create Screen! </h1>
+			<Form />
+			// <div className='Create-Screen-Container'>
+				
+
+			// 	<div className='Question'>
+			// 		Question
+			// 		<input type="text" />
+			// 	</div>
+
+			// 	<div className='answer1-input'>
+			// 		Answer 1 (Required)
+			// 		<input type="text" />
+			// 		<input type="checkbox" name="" id="" />
+
+			// 	</div>
+			// 	<div className='answer2-input'>
+			// 		Answer 2 (Required)
+			// 		<input type="text" />
+			// 		<input type="checkbox" name="" id="" />
+			// 	</div>
+			// 	<div className='answer3-input'>
+			// 		Answer 3
+			// 		<input type="text" />
+			// 		<input type="checkbox" name="" id="" />
+
+			// 	</div>
+			// 	<div className='answer4-input'>
+			// 		Answer 4
+			// 		<input type="text" />
+			// 		<input type="checkbox" name="" id="" />
+
+			// 	</div>
+
+			// 	<div className='cm-Exit-Button'>
+
+			// 		<button>Add Question</button>
+			// 	</div>
+
+			// </div>
+			
 		)
 	}
 	
