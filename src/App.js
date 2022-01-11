@@ -1,126 +1,81 @@
 
-import React, { useState } from 'react';
+
+import React, {Component, useState } from 'react';
+
 import Form from './Form.js'
+import Menu from './Menu.js';
 
 
 
-function App() {
 
-	const[menuScreenState, setMenuScreenState] = useState(true)
-	const [createScreenState, setCreateScreenState]  = useState(false);
-	const [joinScreenState, setJoinScreenState]  = useState(false);
+class App extends Component {
 
-	function handleJoinButtonClick(){
-		setJoinScreenState(true);
-		setMenuScreenState(false);
+	constructor(props){
+		super(props)
+		this.setCreateStates = this.setCreateStates.bind(this)
+		this.setJoinStates = this.setJoinStates.bind(this)
+		this.setMenuStates = this.setMenuStates.bind(this)
 
-	}
-
-	function handleCreateButtonClick () {
-		setCreateScreenState(true);
-		setMenuScreenState(false);
-		  
-	}
-
-	function joinScreen(){
-		return (
-			<h1> Join Screen! </h1>
-		)
-	}
-
-	function createScreen(){
-
-
-		return (
-			<Form />
-			// <div className='Create-Screen-Container'>
-				
-
-			// 	<div className='Question'>
-			// 		Question
-			// 		<input type="text" />
-			// 	</div>
-
-			// 	<div className='answer1-input'>
-			// 		Answer 1 (Required)
-			// 		<input type="text" />
-			// 		<input type="checkbox" name="" id="" />
-
-			// 	</div>
-			// 	<div className='answer2-input'>
-			// 		Answer 2 (Required)
-			// 		<input type="text" />
-			// 		<input type="checkbox" name="" id="" />
-			// 	</div>
-			// 	<div className='answer3-input'>
-			// 		Answer 3
-			// 		<input type="text" />
-			// 		<input type="checkbox" name="" id="" />
-
-			// 	</div>
-			// 	<div className='answer4-input'>
-			// 		Answer 4
-			// 		<input type="text" />
-			// 		<input type="checkbox" name="" id="" />
-
-			// 	</div>
-
-			// 	<div className='cm-Exit-Button'>
-
-			// 		<button>Add Question</button>
-			// 	</div>
-
-			// </div>
-			
-		)
+		this.state = {
+			menuScreenState: true,
+			joinScreenState: false,
+			createScreenState: false
+		}
+		
 	}
 	
-	function ShowMenu(){
 
-		
-		return (
-		
-		<div className="Menu-container">
-
-			<div className="M_header">
-				<h1>Tourney!</h1>
-			</div>
-
-			<div className="M_code_entry">
-				<input className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
-			</div>
-
-			<div className="M_join_button">
-				<button className="join-button btn-hover" onClick={() =>
-					{handleJoinButtonClick()}}>Join!</button>
-			</div>
-
-			<div className="M_join_button">
-				<button className="create-button btn-hover" onClick={ () => 
-					{ handleCreateButtonClick()}}> Create Game </button>
-			</div>
-
-		</div>
-
-		);
-
+	setCreateStates(){
+		this.setState({menuScreenState: false})
+		this.setState({createScreenState: true})
 	}
 
+	setJoinStates(){
+		this.setState({menuScreenState: false})
+		this.setState({joinScreenState: true})
+	}
+
+	setMenuStates(){
+		this.setState({menuScreenState: true})
+		this.setState({createScreenState: false})
+	}
+
+	
 
 
-  return (
-    <div className="App">
-
-
-		{menuScreenState ? ShowMenu() : createScreenState ? createScreen() : joinScreenState ? joinScreen() : null } 
-		{/* {createScreenState ? createScreenState() : joinScreenState ? joinScreenState() : ShowMenu() }  */}
-				
-
-		{/* { createScreenState ? (<h1>DEEZNUTZ</h1>) : (ShowMenu())} */}
+	render(){
 		
+		return(
+			// console.log(this.state.menuScreenState)
+			this.state.menuScreenState ? 
+			<div className="App">
+				
+				<Menu setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
+			</div>
+			:
+			this.state.createScreenState ? 
 			
-    </div>
-  );
+			<div className="App">
+				<Form setMenuStates ={this.setMenuStates} />
+
+			</div>
+			:
+			this.state.joinScreenState ?
+			<div className="App">
+				<h1>deez nutz</h1>
+			</div>
+			:
+			null
+		
+
+		)
+			
+				
+	}
+
 }
+
+
+
 
 export default App;
