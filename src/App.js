@@ -2,11 +2,15 @@
 
 import React, {Component, useState } from 'react';
 
+
+
 import Form from './Form.js'
 import Menu from './Menu.js';
 
-
-
+import { onSnapshot, collection } from 'firebase/firestore';
+import { useEffect } from 'react';
+import firebase from './firebase.js';
+import db from "./firebase"
 
 class App extends Component {
 
@@ -44,11 +48,18 @@ class App extends Component {
 
 
 	render(){
+		// FIX HEERE
+		useEffect( () => {
+			onSnapshot(collection(db, "question_banks" ), (snapshot)=> {} );
+			console.log(snapshot);
+		});
 		
 		return(
+			
 			// console.log(this.state.menuScreenState)
 			this.state.menuScreenState ? 
 			<div className="App">
+				{}
 				
 				<Menu setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
 			</div>

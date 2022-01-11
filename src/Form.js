@@ -10,7 +10,9 @@ import { red, white } from '@mui/material/colors';
 
 
 
+
 class Form extends Component {
+    
 
     constructor(props) {
         super(props);
@@ -21,7 +23,8 @@ class Form extends Component {
             answer_2: '',
             answer_3: '',
             answer_4: '',
-            seconds : ''
+            seconds : '',
+            // ref : firebase.firestore().collection("question_banks")
 
         }
         this.theme = createTheme({
@@ -34,10 +37,11 @@ class Form extends Component {
 
     handleMenuButtonClick(){
         this.props.setMenuStates();
-		
+
 	}
 
     handleAddButtonClick(){
+        
 
 	}
 
@@ -76,17 +80,14 @@ class Form extends Component {
             <ThemeProvider theme={this.theme}>
             {/* //TODO: Add onsubmit (?) so the form wont cause page refresh */}
             <form className='form-container'>
-                {/* <div>
-                    <label>Question</label>
-                    <input type="text" 
-                    value={this.state.question} 
-                    onChange={this.handlequestionChange}/>
-                </div> */}
+
+
+                <h1>{this.state.ref}</h1>
 
                 <div> 
                     <label>Question: </label>
                     <TextField value={this.state.question} onChange={this.handlequestionChange}
-                        label= "" multiline rows={4} variant="filled" ></TextField>
+                        label= "" multiline rows={2} style = {{width: 300}} variant="filled" ></TextField>
 
                     <div>
                     <FormControl fullWidth style={{minWidth: 125}}>
