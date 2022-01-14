@@ -20,5 +20,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// can now import db whenever need to access database
+export const db = getFirestore(app);
 
-export default getFirestore();
+
+//export default getFirestore();

@@ -4,13 +4,14 @@ import React, {Component, useState } from 'react';
 
 
 
-import Form from './Form.js'
+import Create from './Create.js'
 import Menu from './Menu.js';
+import Game from './Game.js'
 
 import { onSnapshot, collection } from 'firebase/firestore';
 import { useEffect } from 'react';
 import firebase from './firebase.js';
-import db from "./firebase"
+import db from "./firebase";
 
 class App extends Component {
 
@@ -48,11 +49,6 @@ class App extends Component {
 
 
 	render(){
-		// FIX HEERE
-		useEffect( () => {
-			onSnapshot(collection(db, "question_banks" ), (snapshot)=> {} );
-			console.log(snapshot);
-		});
 		
 		return(
 			
@@ -67,13 +63,13 @@ class App extends Component {
 			this.state.createScreenState ? 
 			
 			<div className="App">
-				<Form setMenuStates ={this.setMenuStates} />
+				<Create setMenuStates ={this.setMenuStates} />
 
 			</div>
 			:
 			this.state.joinScreenState ?
 			<div className="App">
-				<h1>deez nutz</h1>
+				<Game setMenuStates ={this.setMenuStates}/>
 			</div>
 			:
 			null
