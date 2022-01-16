@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import {createTheme, Checkbox, TextFieldAutosize, TextField, Select, FormControl, MenuItem, InputLabel, Button } from '@mui/material';
 
-import App from './App';
+
+
 import { red, white } from '@mui/material/colors';
+import {collection, addDoc } from 'firebase/firestore';
+import { db } from './firebase';
 
 
 class Create extends Component {
     
-
     constructor(props) {
         super(props);
         this.state = {
@@ -79,7 +81,37 @@ class Create extends Component {
 
 	}
 
-    handleFinishedButtonClick(){
+    async addToDatabse(entry){
+        let q_num = entry.question_num;
+
+        const docRef = await addDoc(collection(db, "question_banks"),{
+            q_num : {
+            question: "penis penis",
+            answers : ["cock", "double cock", "booty cheeks"],
+            seconds: 20
+            }
+        });
+
+
+
+
+    }
+
+    async handleFinishedButtonClick(){
+
+        //Creatign the document (getting a docRef ID)
+        const docRef = await addDoc(collection(db, "question_banks"),{});
+        // const docRef = await addDoc(collection(db, "question_banks"),{
+        //     q1: {
+        //     question: "penis penis",
+        //     answers : ["cock", "double cock", "booty cheeks"],
+        //     seconds: 20
+        //     }
+        // });
+
+        console.log("Document written with ID: ", docRef.id);
+
+        // this.state.question_bank.forEach(entry => this.addToDatabse(entry) );
 
     }
 
