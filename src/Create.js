@@ -5,7 +5,7 @@ import {createTheme, Checkbox, TextFieldAutosize, TextField, Select, FormControl
 
 
 import { red, white } from '@mui/material/colors';
-import {collection, addDoc } from 'firebase/firestore';
+import {collection, addDoc, setDoc, updateDoc, doc, query, getDocs } from 'firebase/firestore';
 import { db } from './firebase';
 
 
@@ -43,9 +43,34 @@ class Create extends Component {
         this.props.setMenuStates();
 	}
 
-    // Make sure to add input error handling... 
-    // (fields must not be blank etc...)
+    
     handleAddButtonClick(){
+        //error handling if statements
+        if (this.state.question == ""){
+            alert("Your question can't be blank!");
+            return 1
+        }
+        if (this.state.answer_1 == "" || this.state.answer_2 == "" ){
+            alert("Both Answer 1 and 2 are required!");
+            return 1
+        }
+
+        if ( (this.state.answer_1_correct == false) && (this.state.answer_2_correct == false) 
+        && (this.state.answer_3_correct == false) && (this.state.answer_4_correct == false)){
+            alert("At least one answer has to be correct!")
+            return 1
+        }
+        if ( (this.state.answer_3_correct == true) && (this.state.answer_3 == "")){
+            alert("Answer 3 can't be correct if it's blank!");
+            return 1
+        }
+        if ( (this.state.answer_4_correct == true) && (this.state.answer_4 == "")){
+            alert("Answer 4 can't be correct if it's blank!");
+            return 1
+        }
+        
+
+
         this.setState({question_num: this.state.question_num + 1});
 
         let correct_answers = [];
@@ -69,7 +94,7 @@ class Create extends Component {
             "answer_3": this.state.answer_3,
             "answer_4": this.state.answer_4,
             "seconds" : this.state.seconds,
-            "question_num" : 1,
+            "question_num" : this.state.question_num,
             "correct_answers" : correct_answers
 
         };
@@ -81,38 +106,74 @@ class Create extends Component {
 
 	}
 
-    async addToDatabse(entry){
+
+
+
+    async addToDatabse(docRef,entry){        
+        
         let q_num = entry.question_num;
+        
+        let questions =  [];
 
-        const docRef = await addDoc(collection(db, "question_banks"),{
-            q_num : {
-            question: "penis penis",
-            answers : ["cock", "double cock", "booty cheeks"],
-            seconds: 20
-            }
-        });
-
-
-
+        if (entry.answer_1 != ''){
+            questions.push(entry.answer_1);
+        }
+        if (entry.answer_2 != ''){
+            questions.push(entry.answer_2);
+        }
+        if (entry.answer_3 != ''){
+            questions.push(entry.answer_3);
+        }
+        if (entry.answer_4 != ''){
+            questions.push(entry.answer_4);
+        }
+        
+        await setDoc(doc(db, "question_banks", docRef),
+        {
+        //add "Q"
+            ["q" +q_num] : {
+            question: entry.question,
+            answers : questions,
+            correct_answers : entry.correct_answers,
+            seconds: entry.seconds
+            } 
+        }, {merge:true});
 
     }
 
+
     async handleFinishedButtonClick(){
 
-        //Creatign the document (getting a docRef ID)
-        const docRef = await addDoc(collection(db, "question_banks"),{});
-        // const docRef = await addDoc(collection(db, "question_banks"),{
-        //     q1: {
-        //     question: "penis penis",
-        //     answers : ["cock", "double cock", "booty cheeks"],
-        //     seconds: 20
-        //     }
-        // });
+        // Dont add to database if theres an issue
+        // with the question
+        if (this.state.question != "");
+            if (this.handleAddButtonClick() == 1){
+                return
+            }
+            
 
-        console.log("Document written with ID: ", docRef.id);
+        let gameID = String(Math.floor(100000 + Math.random()*900000));
+        let ids = [];
+        const deez = query(collection(db, "question_banks"));
+        const querySnapshot = await getDocs(deez);
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            ids.push(doc.id);
+        });
+        //If the generated gameID already, regenerate until its unique
+        while (gameID in ids){
+            gameID = String(Math.floor(100000 + Math.random()*900000));
+        } 
 
-        // this.state.question_bank.forEach(entry => this.addToDatabse(entry) );
+        
+        //Creating the document in "question_banks"
+        await setDoc(doc(db, "question_banks", gameID), {} );//,{});
+        console.log("Document written with ID: ", gameID);
 
+        for (const element of this.state.question_bank){
+            this.addToDatabse(gameID, element);
+        };
+        
     }
 
 
@@ -191,7 +252,6 @@ class Create extends Component {
                 </div>
             <div className='form-container'>
 
-                
 
 
                 <div> 
@@ -241,7 +301,6 @@ class Create extends Component {
                     <Checkbox color="success" size='large' checked={this.state.answer_4_correct} 
                     onChange={this.handle_a4_checkbox}/>
                 </div>
-
 
                 
             
