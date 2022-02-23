@@ -17,6 +17,10 @@ class Menu extends Component{
 	
 	}
 
+	handleMadeButtonClick(){
+
+	}
+
 
     render() {
         return (
@@ -38,6 +42,10 @@ class Menu extends Component{
 				<div className="M_join_button">
 					<button className="create-button btn-hover" onClick={ () => 
 						{this.handleCreateButtonClick()}}> Create Game </button>
+				</div>
+
+				<div> 
+					<button className='create-buttons' onClick={this.handleMadeButtonClick}> I Already Made a Game</button>
 				</div>
 
 			</div>

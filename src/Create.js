@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import {createTheme, Checkbox, TextFieldAutosize, TextField, Select, FormControl, MenuItem, InputLabel, Button } from '@mui/material';
+import {createTheme, Checkbox,  TextField, Select, FormControl, MenuItem, InputLabel,  } from '@mui/material';
 
 
 
-import { red, white } from '@mui/material/colors';
-import {collection, addDoc, setDoc, updateDoc, doc, query, getDocs } from 'firebase/firestore';
+
+import {collection,  setDoc, doc, query, getDocs } from 'firebase/firestore';
 import { db } from './firebase';
 
 
@@ -46,25 +46,25 @@ class Create extends Component {
     
     handleAddButtonClick(){
         //error handling if statements
-        if (this.state.question == ""){
+        if (this.state.question === ""){
             alert("Your question can't be blank!");
             return 1
         }
-        if (this.state.answer_1 == "" || this.state.answer_2 == "" ){
+        if (this.state.answer_1 === "" || this.state.answer_2 === "" ){
             alert("Both Answer 1 and 2 are required!");
             return 1
         }
 
-        if ( (this.state.answer_1_correct == false) && (this.state.answer_2_correct == false) 
-        && (this.state.answer_3_correct == false) && (this.state.answer_4_correct == false)){
+        if ( (this.state.answer_1_correct === false) && (this.state.answer_2_correct === false) 
+        && (this.state.answer_3_correct === false) && (this.state.answer_4_correct === false)){
             alert("At least one answer has to be correct!")
             return 1
         }
-        if ( (this.state.answer_3_correct == true) && (this.state.answer_3 == "")){
+        if ( (this.state.answer_3_correct === true) && (this.state.answer_3 === "")){
             alert("Answer 3 can't be correct if it's blank!");
             return 1
         }
-        if ( (this.state.answer_4_correct == true) && (this.state.answer_4 == "")){
+        if ( (this.state.answer_4_correct === true) && (this.state.answer_4 === "")){
             alert("Answer 4 can't be correct if it's blank!");
             return 1
         }
@@ -115,16 +115,16 @@ class Create extends Component {
         
         let questions =  [];
 
-        if (entry.answer_1 != ''){
+        if (entry.answer_1 !== ''){
             questions.push(entry.answer_1);
         }
-        if (entry.answer_2 != ''){
+        if (entry.answer_2 !== ''){
             questions.push(entry.answer_2);
         }
-        if (entry.answer_3 != ''){
+        if (entry.answer_3 !== ''){
             questions.push(entry.answer_3);
         }
-        if (entry.answer_4 != ''){
+        if (entry.answer_4 !== ''){
             questions.push(entry.answer_4);
         }
         
@@ -146,10 +146,15 @@ class Create extends Component {
 
         // Dont add to database if theres an issue
         // with the question
-        if (this.state.question != "");
-            if (this.handleAddButtonClick() == 1){
+
+        //fix this so finished will create database entry if one question is 
+        if (this.state.question !== "");
+            if (this.handleAddButtonClick() === 1){
                 return
             }
+
+        //Change States to hosting screen
+        this.props.setHostStates();
             
 
         let gameID = String(Math.floor(100000 + Math.random()*900000));
@@ -173,6 +178,8 @@ class Create extends Component {
         for (const element of this.state.question_bank){
             this.addToDatabse(gameID, element);
         };
+
+        
         
     }
 

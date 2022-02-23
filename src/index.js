@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './app.css';
 import './Create.css';
+import './Host.css';
 import App from './App';
 
 

@@ -1,23 +1,18 @@
-
-
 import React, { Component } from 'react';
-import Create from './Create';
 
 class Host extends Component {
     constructor(props){
-
-        super(props);
-        this.state = {
-            createScreenState : false,
-            hostScreenState : false
-            
-        }
+        super(props)
     }
-        
-    render() {
 
+    
+    render() {
         return (
-            <Create/>
+            <div className='All'>
+                
+                <h1>Waiting for players </h1> <div className="dot-pulse"></div>
+                <button className='begin-button btn-hover' >Begin!</button>
+            </div>
         );
     }
 }

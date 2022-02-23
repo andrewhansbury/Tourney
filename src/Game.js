@@ -14,7 +14,7 @@ class Game extends Component {
     render() {
         return (
             <div>
-                <h1>DEEZ NUTZ</h1>
+                <h1>HIII</h1>
                 <button onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
             </div>
         );

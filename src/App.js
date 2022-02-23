@@ -12,6 +12,7 @@ import { onSnapshot, collection } from 'firebase/firestore';
 import { useEffect } from 'react';
 import firebase from './firebase.js';
 import db from "./firebase";
+import CreateDecider from './CreateDecider.js';
 
 class App extends Component {
 
@@ -63,7 +64,7 @@ class App extends Component {
 			this.state.createScreenState ? 
 			
 			<div className="App">
-				<Create setMenuStates ={this.setMenuStates} />
+				<CreateDecider setMenuStates ={this.setMenuStates} />
 
 			</div>
 			:
