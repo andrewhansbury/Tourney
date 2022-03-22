@@ -17,6 +17,7 @@ class CreateDecider extends Component {
     }
 
     setHostStates(){
+        console.log(this.props.game_code)
         this.setState({hostScreenState: true})
 		this.setState({createNewScreenState: false})
     }
@@ -26,15 +27,16 @@ class CreateDecider extends Component {
         
 
     render() {
-
+        
         return (
+            
             this.state.createNewScreenState ?
 
-            <Create setMenuStates = {this.props.setMenuStates} setHostStates = {this.setHostStates} /> 
+            <Create setGameCode = {this.props.setGameCode.bind(this)} setMenuStates = {this.props.setMenuStates} setHostStates = {this.setHostStates} /> 
             :
             this.state.hostScreenState ?
 
-            <Host setHostStates = {this.setHostStates} />
+            <Host game_code={this.props.game_code} setHostStates = {this.setHostStates} />
             :
             <div>Beans</div>
         );

@@ -18,16 +18,24 @@ class App extends Component {
 
 	constructor(props){
 		super(props)
-		this.setCreateStates = this.setCreateStates.bind(this)
-		this.setJoinStates = this.setJoinStates.bind(this)
-		this.setMenuStates = this.setMenuStates.bind(this)
+		this.setCreateStates = this.setCreateStates.bind(this);
+		this.setJoinStates = this.setJoinStates.bind(this);
+		this.setMenuStates = this.setMenuStates.bind(this);
+		// this.setGameCode = this.setGameCode.bind(this);
 
 		this.state = {
 			menuScreenState: true,
 			joinScreenState: false,
-			createScreenState: false
-		}
-		
+			createScreenState: false,
+			game_code: null
+		};
+
+	}
+
+
+
+	setGameCode(code){
+		this.setState({game_code: code});
 	}
 	
 
@@ -39,6 +47,7 @@ class App extends Component {
 	setJoinStates(){
 		this.setState({menuScreenState: false})
 		this.setState({joinScreenState: true})
+
 	}
 
 	setMenuStates(){
@@ -53,24 +62,23 @@ class App extends Component {
 		
 		return(
 			
-			// console.log(this.state.menuScreenState)
 			this.state.menuScreenState ? 
 			<div className="App">
 				{}
 				
-				<Menu setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
+				<Menu setGameCode = {this.setGameCode.bind(this)} setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
 			</div>
 			:
 			this.state.createScreenState ? 
 			
 			<div className="App">
-				<CreateDecider setMenuStates ={this.setMenuStates} />
+				<CreateDecider setGameCode = {this.setGameCode.bind(this)} game_code={this.state.game_code} setMenuStates ={this.setMenuStates} />
 
 			</div>
 			:
 			this.state.joinScreenState ?
 			<div className="App">
-				<Game setMenuStates ={this.setMenuStates}/>
+				<Game setMenuStates ={this.setMenuStates} game_code={this.state.game_code}/>
 			</div>
 			:
 			null

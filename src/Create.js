@@ -46,7 +46,7 @@ class Create extends Component {
     
     handleAddButtonClick(){
         //error handling if statements
-        if (this.state.question === ""){
+        if (this.state.question === "" && this.state.question_bank.length < 1){
             alert("Your question can't be blank!");
             return 1
         }
@@ -109,7 +109,7 @@ class Create extends Component {
 
 
 
-    async addToDatabse(docRef,entry){        
+    async addToDatabase(docRef,entry){        
         
         let q_num = entry.question_num;
         
@@ -128,8 +128,9 @@ class Create extends Component {
             questions.push(entry.answer_4);
         }
         
-        await setDoc(doc(db, "question_banks", docRef),
+        await setDoc(doc(db, "question_banks", docRef), 
         {
+            questions:{
         //add "Q"
             ["q" +q_num] : {
             question: entry.question,
@@ -137,6 +138,8 @@ class Create extends Component {
             correct_answers : entry.correct_answers,
             seconds: entry.seconds
             } 
+        },
+        players:[]
         }, {merge:true});
 
     }
@@ -158,6 +161,9 @@ class Create extends Component {
             
 
         let gameID = String(Math.floor(100000 + Math.random()*900000));
+        this.props.setGameCode(gameID);
+
+
         let ids = [];
         const deez = query(collection(db, "question_banks"));
         const querySnapshot = await getDocs(deez);
@@ -176,8 +182,10 @@ class Create extends Component {
         console.log("Document written with ID: ", gameID);
 
         for (const element of this.state.question_bank){
-            this.addToDatabse(gameID, element);
+            this.addToDatabase(gameID, element);
         };
+
+
 
         
         

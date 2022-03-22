@@ -4,11 +4,19 @@ import React, { Component } from 'react';
 class Menu extends Component{
     constructor(props){
         super(props);
+		this.state = {
+			game_code: null
+		}
     }
 
     
+	handleCodeInput = (event) => {
+		this.setState({game_code: event.target.value});
+		
+	}
 
     handleJoinButtonClick(){
+		this.props.setGameCode(this.state.game_code);		
 		this.props.setJoinStates();
 	}
 
@@ -31,7 +39,7 @@ class Menu extends Component{
 				</div>
 
 				<div className="M_code_entry">
-					<input className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+					<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
 				</div>
 
 				<div className="M_join_button">
