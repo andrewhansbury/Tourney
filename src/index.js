@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './app.css';
 import './Create.css';
-import './Host.css';
+import './PreHost.css';
+import './Made.css';
 import App from './App';
 
 

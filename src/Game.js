@@ -8,8 +8,10 @@ class Game extends Component {
         super(props);
         this.state = {
             game_code: props.game_code,
-            player_name: ''
-            
+            player_name: '',
+            joined : false,
+            game_data: null
+
         };
         
     }
@@ -27,6 +29,8 @@ class Game extends Component {
             players: arrayUnion(this.state.player_name)
         });
 
+        this.setState({joined: true})
+
 
     }
 
@@ -35,16 +39,32 @@ class Game extends Component {
     }
 
     render() {
-        return (
-            <div>
-                
-                Name:
-                <input type= "text" value={this.state.player_name} onChange={this.handleNameInput}/> 
-                <button onClick={ () => {this.handleJoinButtonClick()}}>Join!</button>
-                <h1>{this.state.game_code}</h1>
-                <button onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
-            </div>
-        );
+
+        if (this.state.joined == false){
+            return (
+                <div>
+                    
+                    Name:
+                    <input type= "text" value={this.state.player_name} onChange={this.handleNameInput}/> 
+                    <button onClick={ () => {this.handleJoinButtonClick()}}>Join!</button>
+                    <h1>{this.state.game_code}</h1>
+                    <button onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
+                </div>
+            );
+        }
+
+        else{
+            return(
+                <div>
+                    <h1> Welcome {this.state.player_name}!</h1>
+
+                    <h2> We're waiting for the host to start the game.</h2>
+                </div>
+            )
+            
+
+        }
+       
     }
 }
 

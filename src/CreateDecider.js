@@ -2,24 +2,38 @@
 
 import React, { Component } from 'react';
 import Create from './Create';
-import Host from './Host';
+import PreHost from './PreHost';
+import Made from './Made';
 
 class CreateDecider extends Component {
     constructor(props){
 
         super(props);
         this.setHostStates = this.setHostStates.bind(this)
-        this.state = {
-            createNewScreenState : true,
-            hostScreenState : false
+        if (this.props.create == true){
+            this.state = {
+                createNewScreenState : true,
+                hostScreenState : false,
+                madeScreenState: false,
+            }
             
         }
+        else if (this.props.made == true){
+            this.state = {
+                createNewScreenState : false,
+                hostScreenState : false,
+                madeScreenState: true
+            }
+            
+        }
+        
     }
 
     setHostStates(){
-        console.log(this.props.game_code)
-        this.setState({hostScreenState: true})
-		this.setState({createNewScreenState: false})
+
+        this.setState({createNewScreenState: false});
+        this.setState({madeScreenState:false});
+        this.setState({hostScreenState: true});
     }
 
     //figure out how to pass gameid from create component to the host component
@@ -36,7 +50,16 @@ class CreateDecider extends Component {
             :
             this.state.hostScreenState ?
 
-            <Host game_code={this.props.game_code} setHostStates = {this.setHostStates} />
+            <PreHost game_code={this.props.game_code} setHostStates = {this.setHostStates} />
+            :
+            
+			this.state.madeScreenState ?
+
+				<Made setGameCode = {this.props.setGameCode.bind(this)} 
+                setMenuStates ={this.props.setMenuStates}
+                setHostStates = {this.setHostStates}
+                />
+
             :
             <div>Beans</div>
         );

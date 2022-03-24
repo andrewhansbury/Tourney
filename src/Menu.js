@@ -15,7 +15,13 @@ class Menu extends Component{
 		
 	}
 
+	
     handleJoinButtonClick(){
+		if ( this.state.game_code == null || this.state.game_code.length < 6){
+			alert("Must be a 6-Digit Code!")
+			return
+		}
+
 		this.props.setGameCode(this.state.game_code);		
 		this.props.setJoinStates();
 	}
@@ -26,7 +32,8 @@ class Menu extends Component{
 	}
 
 	handleMadeButtonClick(){
-
+        // this.props.setCreateStates();
+		this.props.setMadeStates();
 	}
 
 
@@ -53,7 +60,8 @@ class Menu extends Component{
 				</div>
 
 				<div> 
-					<button className='create-buttons' onClick={this.handleMadeButtonClick}> I Already Made a Game</button>
+					<button className='create-buttons' onClick={ () => 
+						{this.handleMadeButtonClick()}}> I Already Made a Game</button>
 				</div>
 
 			</div>

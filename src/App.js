@@ -1,17 +1,10 @@
 
 
-import React, {Component, useState } from 'react';
+import React, {Component } from 'react';
 
 
-
-import Create from './Create.js'
 import Menu from './Menu.js';
 import Game from './Game.js'
-
-import { onSnapshot, collection } from 'firebase/firestore';
-import { useEffect } from 'react';
-import firebase from './firebase.js';
-import db from "./firebase";
 import CreateDecider from './CreateDecider.js';
 
 class App extends Component {
@@ -27,6 +20,7 @@ class App extends Component {
 			menuScreenState: true,
 			joinScreenState: false,
 			createScreenState: false,
+			madeScreenState: false,
 			game_code: null
 		};
 
@@ -36,23 +30,33 @@ class App extends Component {
 
 	setGameCode(code){
 		this.setState({game_code: code});
+		
 	}
 	
 
 	setCreateStates(){
-		this.setState({menuScreenState: false})
-		this.setState({createScreenState: true})
+		this.setState({menuScreenState: false});
+		this.setState({createScreenState: true});
 	}
 
 	setJoinStates(){
-		this.setState({menuScreenState: false})
-		this.setState({joinScreenState: true})
+		this.setState({menuScreenState: false});
+		this.setState({joinScreenState: true});
 
 	}
 
 	setMenuStates(){
-		this.setState({menuScreenState: true})
-		this.setState({createScreenState: false})
+		this.setState({menuScreenState: true});
+		this.setState({createScreenState: false});
+		this.setState({joinScreenState: false});
+		this.setState({madeScreenState: false});
+
+	}
+
+	setMadeStates(){
+		this.setState({menuScreenState: false})
+		this.setState({madeScreenState: true})
+
 	}
 
 	
@@ -66,13 +70,15 @@ class App extends Component {
 			<div className="App">
 				{}
 				
-				<Menu setGameCode = {this.setGameCode.bind(this)} setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
+				<Menu setMadeStates = {this.setMadeStates.bind(this)} setGameCode = {this.setGameCode.bind(this)}
+				 setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
 			</div>
 			:
 			this.state.createScreenState ? 
 			
 			<div className="App">
-				<CreateDecider setGameCode = {this.setGameCode.bind(this)} game_code={this.state.game_code} setMenuStates ={this.setMenuStates} />
+				<CreateDecider create={true} setGameCode = {this.setGameCode.bind(this)} game_code={this.state.game_code} 
+				 setMenuStates ={this.setMenuStates} />
 
 			</div>
 			:
@@ -80,7 +86,19 @@ class App extends Component {
 			<div className="App">
 				<Game setMenuStates ={this.setMenuStates} game_code={this.state.game_code}/>
 			</div>
+			
 			:
+
+			this.state.madeScreenState ?
+
+			<div className="App">
+				<CreateDecider made={true} setGameCode = {this.setGameCode.bind(this)} game_code={this.state.game_code} 
+				 setMenuStates ={this.setMenuStates} />
+
+			</div>
+
+			:
+
 			null
 		
 

@@ -15,9 +15,15 @@ body {
   align-items: center;
   min-height: 90vh;
   color: white;
+  position: relative;
 }
 
 .App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
   background-color: #533675;
   width: 750px;
   min-height: 500px;

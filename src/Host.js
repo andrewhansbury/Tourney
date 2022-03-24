@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-import { doc, getDoc } from "firebase/firestore";
-import { db } from './firebase';
 
 class Host extends Component {
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            game_data : this.props.game_data,
+            // curr_num : this.props.game_data.curr_num,
+            // curr_question : this.props.game_data.questions.q1,
+            // seconds : this.props.game_data.questions.q1.seconds 
+
+        }
+
+        this.setState({curr_num: false})
+        console.log(this.state.game_data)
+        console.log(this.state.curr_num)
+        console.log(this.state.curr_question)
+        console.log(this.state.seconds)
+
+
     }
 
-    displayPlayers(){
-   
 
-    }
-
-    
     render() {
         return (
-            <div className='All'>
-                
-                <h1>Waiting for players </h1> 
-                <h2>Join at: {this.props.game_code}</h2> 
-                <div className="dot-pulse"></div>
-                
-
-                
-
-
-                <button className='begin-button btn-hover' >Begin!</button>
+            <div>
+                <h1>Deez Nutz</h1>
+                {/* <h2> {this.state.curr_question.question} </h2> */}
             </div>
         );
     }

@@ -128,10 +128,12 @@ class Create extends Component {
             questions.push(entry.answer_4);
         }
         
+
+// FIREBASE GAME CREATION IS HERE
         await setDoc(doc(db, "question_banks", docRef), 
         {
             questions:{
-        //add "Q"
+        
             ["q" +q_num] : {
             question: entry.question,
             answers : questions,
@@ -139,7 +141,9 @@ class Create extends Component {
             seconds: entry.seconds
             } 
         },
-        players:[]
+        players:[],
+        started:false,
+        curr_num : 1
         }, {merge:true});
 
     }
@@ -168,7 +172,7 @@ class Create extends Component {
         const deez = query(collection(db, "question_banks"));
         const querySnapshot = await getDocs(deez);
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
+            // console.log(doc.id, " => ", doc.data());
             ids.push(doc.id);
         });
         //If the generated gameID already, regenerate until its unique
@@ -187,8 +191,6 @@ class Create extends Component {
 
 
 
-        
-        
     }
 
 
@@ -257,7 +259,7 @@ class Create extends Component {
            
             <ThemeProvider theme={this.theme}>
             
-            
+            <div className='form-container'>
             <div>  
                     
                     <div className='question-counter'> #{this.state.question_num} </div>
@@ -265,7 +267,7 @@ class Create extends Component {
 
                     
                 </div>
-            <div className='form-container'>
+            
 
 
 
@@ -321,7 +323,7 @@ class Create extends Component {
             
                 <button style={{float:'center'}} className= "create-buttons" onClick={ () => {this.handleAddButtonClick()}}>Add Question</button>
 
-            </div>
+            
             
             <div>
                 
@@ -331,6 +333,8 @@ class Create extends Component {
                 
                 <button className='create-buttons' style={{float:'right'}} onClick={ () => {this.handleFinishedButtonClick()}}>Finished</button>
                 
+            </div>
+
             </div>
             </ThemeProvider>
 
