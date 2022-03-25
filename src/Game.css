@@ -1,0 +1,37 @@
+.game-answers button {
+  width: 300px;
+  height: 200px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.buttona1 {
+  background-color: red;
+}
+.buttona2 {
+  background-color: blue;
+}
+.buttona3 {
+  background-color: green;
+}
+.buttona4 {
+  background-color: orange;
+}
+
+#countdowntimer {
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.game-answers .question-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-answers h3 {
+  font-size: 30px;
+}

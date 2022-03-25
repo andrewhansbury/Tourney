@@ -143,6 +143,7 @@ class Create extends Component {
         },
         players:[],
         started:false,
+        show_question:false,
         curr_num : 1
         }, {merge:true});
 

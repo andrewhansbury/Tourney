@@ -4,6 +4,8 @@ import './app.css';
 import './Create.css';
 import './PreHost.css';
 import './Made.css';
+import './Host.css';
+import './Game.css';
 import App from './App';
 
 

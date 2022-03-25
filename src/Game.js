@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, onSnapshot } from "firebase/firestore";
 import { db } from './firebase';
 
 class Game extends Component {
@@ -10,7 +10,12 @@ class Game extends Component {
             game_code: props.game_code,
             player_name: '',
             joined : false,
-            game_data: null
+            game_data: null,
+            started : false,
+            curr_num : 0,
+            timer_done : false,
+            show_question : false
+            
 
         };
         
@@ -30,15 +35,67 @@ class Game extends Component {
         });
 
         this.setState({joined: true})
-
+    
 
     }
+
+    componentDidMount(){
+        
+
+        // const docRef = doc(db, "question_banks", this.props.game_code);
+        const unsub = onSnapshot(
+            doc(db, "question_banks", this.props.game_code), 
+            { includeMetadataChanges: true }, 
+            (doc) => {
+
+            this.setState({game_data: doc.data()})
+            this.setState({started:  doc.data().started});
+            this.setState({curr_num:  doc.data().curr_num});
+            this.setState({show_question : doc.data().show_question})
+
+            });
+
+        }
+
+
 
     handleMenuButtonClick(){
         this.props.setMenuStates();
     }
 
+
+    async handleAnswerClick1(){
+        
+
+
+    }
+
+
+    // questionTimer(seconds){
+    //     setTimeout(function(){
+    //         this.setState({timer_done:true});
+    //    }.bind(this), seconds * 1000);
+
+    //     var timeleft = seconds;
+    //     var downloadTimer = setInterval(function(){
+    //     timeleft--;
+    //     var exists = document.getElementById("countdowntimer");
+    //     if (exists){
+    //         document.getElementById("countdowntimer").textContent = timeleft;
+    //     }
+    //     if(timeleft <= 0)
+    //         clearInterval(downloadTimer);
+    //     },1000);
+
+    // }
+
+    getQ(){
+        var val = "q" + this.state.curr_num;
+        return val;
+    }
+
     render() {
+        
 
         if (this.state.joined == false){
             return (
@@ -53,7 +110,7 @@ class Game extends Component {
             );
         }
 
-        else{
+        else if (this.state.started == false) {
             return(
                 <div>
                     <h1> Welcome {this.state.player_name}!</h1>
@@ -64,6 +121,48 @@ class Game extends Component {
             
 
         }
+
+       
+
+        else if (this.state.show_question ==true){
+            return(
+                <div>
+                        <div className='question-info'> 
+                        {/* {this.questionTimer(this.state.game_data.questions[this.getQ()].seconds)} */}
+                        <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
+                        <span id="countdowntimer">10 </span>
+                        
+                    </div>
+                    <div className='game-answers'>
+                        <div>
+                            <button className='buttona1'> </button>
+                            <button className='buttona2'> </button>
+
+                        </div>
+                        
+                        <div>
+                            <button className='buttona3'> </button>
+                            <button className='buttona4'> </button>
+
+                        </div>
+                    </div>
+                </div>
+            
+            );
+
+        }
+
+        else{
+            return (
+                <h1>RANK</h1>
+            );
+
+            
+
+        }
+       
+            
+        
        
     }
 }

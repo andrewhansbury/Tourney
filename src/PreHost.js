@@ -54,7 +54,8 @@ class PreHost extends Component {
         this.setState({started : true})
         const docRef = doc(db, "question_banks", this.props.game_code);
         await updateDoc(docRef, {
-            started: true
+            started: true,
+            show_question : true
         });
 
     }
@@ -99,7 +100,7 @@ class PreHost extends Component {
             return (
                 // <h1>HI</h1>
                     
-                <Host game_data = {this.state.game_data} />
+                <Host game_data = {this.state.game_data} game_code = {this.props.game_code} />
 
 
             );
