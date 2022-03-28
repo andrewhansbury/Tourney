@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { doc, updateDoc, arrayUnion, onSnapshot, increment } from "firebase/firestore";
 import { db } from './firebase';
-import { BarLoader, ClockLoader } from 'react-spinners';
+import { BarLoader, HashLoader } from 'react-spinners';
 import PostQ from './PostQ';
 
 class Game extends Component {
@@ -187,14 +187,13 @@ class Game extends Component {
                     <div className='answered-container'>
                         <h1>Waiting for the question to finish!</h1>
                         <div>
-                            <ClockLoader size={100} color={'#A2C1FA'}/>
+                            <HashLoader size={100} color={'#A2C1FA'}/>
 
                         </div>
                     </div>
                 )
             }
             
-
 
         }
 
