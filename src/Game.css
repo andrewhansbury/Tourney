@@ -28,6 +28,14 @@
   margin-top: 20px;
 }
 
+.answered-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .game-answers button {
   width: 300px;
   height: 200px;

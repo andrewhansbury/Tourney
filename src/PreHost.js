@@ -71,7 +71,6 @@ class PreHost extends Component {
 
         else if (this.state.started == false){
 
-
             return (   
 
                 <div className='All'>

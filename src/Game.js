@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
-import { doc, updateDoc, arrayUnion, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, onSnapshot, increment } from "firebase/firestore";
 import { db } from './firebase';
-import { BarLoader } from 'react-spinners';
+import { BarLoader, ClockLoader } from 'react-spinners';
+import PostQ from './PostQ';
 
 class Game extends Component {
     constructor(props){
@@ -16,9 +17,13 @@ class Game extends Component {
             bank_name : '',
             curr_num : 0,
             timer_done : false,
-            show_question : false
-            
+            show_question : false,
 
+            feedback : null,
+            answered : false,
+            wins : 0,
+            losses : 0
+            
         };
         
     }
@@ -33,7 +38,8 @@ class Game extends Component {
         const gameRef = doc(db, "question_banks", this.state.game_code);
         
         await updateDoc(gameRef, {
-            players: arrayUnion(this.state.player_name)
+            players: arrayUnion(this.state.player_name),
+  
         });
 
         this.setState({joined: true})
@@ -42,6 +48,7 @@ class Game extends Component {
     }
 
     componentDidMount(){
+
         
 
         // const docRef = doc(db, "question_banks", this.props.game_code);
@@ -56,8 +63,8 @@ class Game extends Component {
             this.setState({show_question : doc.data().show_question});
             this.setState({bank_name : doc.data().bank_name})
 
-            });
 
+            });
         }
 
 
@@ -67,30 +74,37 @@ class Game extends Component {
     }
 
 
-    async handleAnswerClick1(){
+    async handleAnswerClick(choice){
+        this.setState({answered : true})
 
+        const answers = this.state.game_data.questions[this.getQ()].correct_answers;
+        const docRef  = doc(db, "question_banks", this.props.game_code);
 
+        const update_wins = "scores." + this.state.player_name  + ".wins";
+        const update_lossess = "scores." + this.state.player_name  + ".losses";
 
+        if (answers.includes(choice)){
+            await updateDoc(docRef, {
+                [update_wins] : increment(1)}
+            );
+            this.setState({feedback : "Correct"})
+            this.setState({wins:this.state.wins+1})
+        }
+        else{
+            await updateDoc(docRef, {
+                [update_lossess] : increment(1)}
+            );
+            this.setState({feedback : "Incorrect"})
+            this.setState({losses:this.state.losses+1})
+
+        }
+    
     }
 
 
-    // questionTimer(seconds){
-    //     setTimeout(function(){
-    //         this.setState({timer_done:true});
-    //    }.bind(this), seconds * 1000);
-
-    //     var timeleft = seconds;
-    //     var downloadTimer = setInterval(function(){
-    //     timeleft--;
-    //     var exists = document.getElementById("countdowntimer");
-    //     if (exists){
-    //         document.getElementById("countdowntimer").textContent = timeleft;
-    //     }
-    //     if(timeleft <= 0)
-    //         clearInterval(downloadTimer);
-    //     },1000);
-
-    // }
+    setAnweredFalse(){
+        this.setState({answered:false});
+    }
 
     getQ(){
         var val = "q" + this.state.curr_num;
@@ -143,35 +157,53 @@ class Game extends Component {
     
 
         else if (this.state.show_question ==true){
-            return(
-                <div>
-                        <div className='question-info'> 
-                        <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
-                        {/* <span id="countdowntimer">10 </span> */}
-                        
+            if (this.state.answered == false){
+                return(
+                    <div>
+                            <div className='question-info'> 
+                            <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
+                            {/* <span id="countdowntimer">10 </span> */}
+                            
+                        </div>
+                        <div className='game-answers'>
+                            <div>
+                                <button className='buttona1' onClick={() => this.handleAnswerClick(1)}> </button>
+                                <button className='buttona2' onClick={() => this.handleAnswerClick(2)}> </button>
+    
+                            </div>
+                            
+                            <div>
+                                <button className='buttona3' onClick={() => this.handleAnswerClick(3)}> </button>
+                                <button className='buttona4' onClick={() => this.handleAnswerClick(4)}> </button>
+    
+                            </div>
+                        </div>
                     </div>
-                    <div className='game-answers'>
+                
+                );
+            }
+            else{
+                return (
+                    <div className='answered-container'>
+                        <h1>Waiting for the question to finish!</h1>
                         <div>
-                            <button className='buttona1'> </button>
-                            <button className='buttona2'> </button>
+                            <ClockLoader size={100} color={'#A2C1FA'}/>
 
                         </div>
-                        
-                        <div>
-                            <button className='buttona3'> </button>
-                            <button className='buttona4'> </button>
-
-                        </div>
                     </div>
-                </div>
+                )
+            }
             
-            );
+
 
         }
 
         else{
             return (
-                <h1>RANK</h1>
+
+                <PostQ feedback = {this.state.feedback} setAnweredFalse={this.setAnweredFalse.bind(this)}
+                wins= {this.state.wins} losses={this.state.losses} />
+
             );
 
         }
