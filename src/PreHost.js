@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { doc, onSnapshot, getDoc, updateDoc} from "firebase/firestore";
 // import {onValue} from 'firebase/database'
 import { db } from './firebase';
-
 import Host from './Host';
+import { PropagateLoader, BeatLoader } from 'react-spinners';
+
 
 
 class PreHost extends Component {
@@ -65,7 +66,7 @@ class PreHost extends Component {
 
 
         if (this.state.loading){
-            return ( <h1>Loading...</h1> );
+            return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
         }
 
         else if (this.state.started == false){
@@ -75,9 +76,9 @@ class PreHost extends Component {
 
                 <div className='All'>
                     <div className='top-text'>
-                        <h1 className='made'> Waiting for players </h1> 
-                        <h2>Join at: {this.props.game_code}</h2> 
-                        <div className="dot-pulse"></div>
+                        <h1 className='made'> Waiting for players!</h1> 
+                        <h2>Join at: {this.props.game_code}</h2>
+                        <PropagateLoader color='#A2C1FA'/>
                     </div>
 
                     {/* Show all Player names */}
@@ -89,7 +90,7 @@ class PreHost extends Component {
                     </div>
 
                     <div className='begin'>
-                    <button className='begin-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
+                    <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
                     </div>
                 </div>
             );

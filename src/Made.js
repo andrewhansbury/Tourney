@@ -59,6 +59,10 @@ class Made extends Component {
     render() {
         return (
             <div className='made-container'>
+                <div>
+                    <h1>Enter your Tourney's Code!</h1>
+
+                </div>
                 <div className="M_code_entry">
 					<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
             

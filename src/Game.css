@@ -1,3 +1,33 @@
+.join-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.join-container h1 {
+  margin-bottom: 0px;
+}
+.join-container h3 {
+  margin-top: 10px;
+}
+
+.waiting-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.waiting-container h1 {
+  margin: 0px;
+}
+.waiting-container h2 {
+  margin-top: 20px;
+}
+
 .game-answers button {
   width: 300px;
   height: 200px;
@@ -9,16 +39,16 @@
 }
 
 .buttona1 {
-  background-color: red;
+  background-color: #e2468f;
 }
 .buttona2 {
-  background-color: blue;
+  background-color: rgb(82, 93, 253);
 }
 .buttona3 {
-  background-color: green;
+  background-color: rgb(65, 182, 65);
 }
 .buttona4 {
-  background-color: orange;
+  background-color: rgb(221, 119, 23);
 }
 
 #countdowntimer {

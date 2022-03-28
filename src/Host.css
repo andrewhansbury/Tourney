@@ -9,16 +9,16 @@
 }
 
 .button1 {
-  background-color: red;
+  background-color: #e246bb;
 }
-.button2 {
-  background-color: blue;
+.buttona2 {
+  background-color: rgb(82, 93, 253);
 }
-.button3 {
-  background-color: green;
+.buttona3 {
+  background-color: rgb(65, 182, 65);
 }
-.button4 {
-  background-color: orange;
+.buttona4 {
+  background-color: rgb(221, 119, 23);
 }
 
 #countdowntimer {

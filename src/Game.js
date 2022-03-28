@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { doc, updateDoc, arrayUnion, onSnapshot } from "firebase/firestore";
 import { db } from './firebase';
+import { BarLoader } from 'react-spinners';
 
 class Game extends Component {
     constructor(props){
@@ -12,6 +13,7 @@ class Game extends Component {
             joined : false,
             game_data: null,
             started : false,
+            bank_name : '',
             curr_num : 0,
             timer_done : false,
             show_question : false
@@ -51,7 +53,8 @@ class Game extends Component {
             this.setState({game_data: doc.data()})
             this.setState({started:  doc.data().started});
             this.setState({curr_num:  doc.data().curr_num});
-            this.setState({show_question : doc.data().show_question})
+            this.setState({show_question : doc.data().show_question});
+            this.setState({bank_name : doc.data().bank_name})
 
             });
 
@@ -65,7 +68,7 @@ class Game extends Component {
 
 
     async handleAnswerClick1(){
-        
+
 
 
     }
@@ -99,38 +102,52 @@ class Game extends Component {
 
         if (this.state.joined == false){
             return (
-                <div>
+                <div className='join-container'>
+
+                    <div>
+                        <h1>Enter a name to join "{this.state.bank_name}"!</h1>
+                    </div>
+
+                    <div>
+                        <h3>Game Code: {this.state.game_code}</h3>
+
+                    </div>
+
+                    <div>
+                        <input className='entry-1' placeholder='Name' type= "text" value={this.state.player_name} onChange={this.handleNameInput}/> 
+                    </div>
+                    <div>
+                        <button className="join-button btn-hover" onClick={ () => {this.handleJoinButtonClick()}}>Enter Game!</button>
+                    </div>
                     
-                    Name:
-                    <input type= "text" value={this.state.player_name} onChange={this.handleNameInput}/> 
-                    <button onClick={ () => {this.handleJoinButtonClick()}}>Join!</button>
-                    <h1>{this.state.game_code}</h1>
-                    <button onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
+                    <div>
+                        <button className='create-buttons' onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
+
+                    </div>
                 </div>
             );
         }
 
         else if (this.state.started == false) {
             return(
-                <div>
-                    <h1> Welcome {this.state.player_name}!</h1>
+                <div className='waiting-container'>
+                    <h1> Welcome, {this.state.player_name}!</h1>
 
                     <h2> We're waiting for the host to start the game.</h2>
-                </div>
+
+                    <BarLoader color={'#A2C1FA'} height={12} width={250}/>
+                </div>  
             )
             
-
         }
-
-       
+    
 
         else if (this.state.show_question ==true){
             return(
                 <div>
                         <div className='question-info'> 
-                        {/* {this.questionTimer(this.state.game_data.questions[this.getQ()].seconds)} */}
                         <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
-                        <span id="countdowntimer">10 </span>
+                        {/* <span id="countdowntimer">10 </span> */}
                         
                     </div>
                     <div className='game-answers'>
@@ -157,12 +174,8 @@ class Game extends Component {
                 <h1>RANK</h1>
             );
 
-            
-
         }
-       
-            
-        
+               
        
     }
 }

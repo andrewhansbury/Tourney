@@ -141,6 +141,7 @@ class Create extends Component {
             seconds: entry.seconds
             } 
         },
+        bank_name: '',
         players:[],
         started:false,
         show_question:false,
