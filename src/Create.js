@@ -193,7 +193,6 @@ class Create extends Component {
         };
 
 
-
     }
 
 
@@ -260,26 +259,19 @@ class Create extends Component {
         return (
             
            
-            <ThemeProvider theme={this.theme}>
-            
             <div className='form-container'>
-            <div>  
+            <div className='question-num-container'>  
                     
-                    <div className='question-counter'> #{this.state.question_num} </div>
-                    <div className='total-questions'> / {this.state.question_bank.length + 1}</div>
+                    <div className='question-counter'> #{this.state.question_num}/{this.state.question_bank.length + 1}</div>
+        
 
-                    
                 </div>
-            
 
+                    <input className='question-entry' placeholder='Question' value={this.state.question} onChange={this.handleQuestionChange}
+                        label= "Question" multiline rows={2} variant="filled" ></input>
 
+                <div className='seconds-select'>
 
-                <div> 
-                    <label>Question: </label>
-                    <TextField value={this.state.question} onChange={this.handleQuestionChange}
-                        label= "Question" multiline rows={2} style = {{width: 300}} variant="filled" ></TextField>
-
-                    <div>
                     <FormControl fullWidth style={{minWidth: 125}}>
                     <InputLabel id ="seconds">Length</InputLabel>
                     <Select defaultValue={10} value={this.state.seconds} onChange={this.handleSecondsChange} label="Seconds" name="" id="seconds" >
@@ -290,37 +282,43 @@ class Create extends Component {
 
                     </Select>
                     </FormControl>
-                    </div>
                 </div>
+           
 
 
                 
-                <div>
-                    {/* <label>Answer 1 (Required)</label> */}
-                    <TextField value={this.state.answer_1} onChange={this.handleanswer_1Change}
-                     label= "Answer 1" multiline rows={2} variant="filled" ></TextField>
+                <div className='answers'>
+
+                <div> 
+                    <input  className='answer-entry1' value={this.state.answer_1} placeholder='Answer 1' onChange={this.handleanswer_1Change}
+                     label= "Answer 1" multiline rows={2} variant="filled" type={"text"}></input>
+
                     <Checkbox color="success" size='large' checked={this.state.answer_1_correct} 
                     onChange={this.handle_a1_checkbox}/>
-                
-                    {/* <label>Answer 2 (Required)</label> */}
-                    <TextField value={this.state.answer_2} onChange={this.handleanswer_2Change}
-                     label= "Answer 2" multiline rows={2} variant="filled"></TextField>
+                    
+                    <input className='answer-entry2' value={this.state.answer_2} placeholder='Answer 2' onChange={this.handleanswer_2Change}
+                     label= "Answer 2" multiline rows={2} variant="filled" type={"text"}></input>
+
                     <Checkbox color="success" size='large' checked={this.state.answer_2_correct} 
                     onChange={this.handle_a2_checkbox}/>
+
                 </div>
                 <div>
-                    {/* <label>Answer 3</label> */}
-                    <TextField value={this.state.answer_3} onChange={this.handleanswer_3Change}
-                     label= "Answer 3 (Optional)" multiline rows={2} variant="filled" ></TextField>
+                    
+                    <input className='answer-entry3'  value={this.state.answer_3} placeholder='Answer 3' onChange={this.handleanswer_3Change}
+                     label= "Answer 3 (Optional)" multiline rows={2} variant="filled" type={"text"} ></input>
+                       
                     <Checkbox color="success" size='large' checked={this.state.answer_3_correct} 
                     onChange={this.handle_a3_checkbox}/>
-               
-                    {/* <label>Answer 4</label> */}
-                    <TextField value={this.state.answer_4} onChange={this.handleanswer_4Change}
-                    label= "Answer 4 (Optional)"  multiline rows={2} variant="filled"></TextField>
+      
+                    <input className='answer-entry4' value={this.state.answer_4} placeholder='Answer 4' onChange={this.handleanswer_4Change}
+                     label= "Answer 4 (Optional)"  multiline rows={2} variant="filled" type={"text"}></input>
+
                     <Checkbox color="success" size='large' checked={this.state.answer_4_correct} 
                     onChange={this.handle_a4_checkbox}/>
                 </div>
+
+                </div>   
 
                 
             
@@ -339,7 +337,7 @@ class Create extends Component {
             </div>
 
             </div>
-            </ThemeProvider>
+     
 
         );
     }

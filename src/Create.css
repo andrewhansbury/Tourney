@@ -5,12 +5,6 @@ TextField {
 
 .question-counter {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  /* font-size: larger; */
-  font-weight: 600;
-}
-
-.total-questions {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: larger;
   font-weight: 600;
 }
@@ -46,4 +40,59 @@ TextField {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.question-num-container{
+  order: -1;
+  align-self: baseline;
+  position: relative;
+  top: -25px;
+  left: 10px;
+  
+}
+
+
+.question-entry {
+  text-align: center;
+  min-height: 75px;
+  width: 90%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 2;
+
+}
+
+.answers input[type=text]{
+  text-align: center;
+  min-height: 60px;
+  width: 40%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 2;
+  color: white;
+}
+
+.answers input[type=text]::-webkit-input-placeholder {
+  color: #ffffff;
+}
+
+.seconds-select{
+  padding-top: 25px;
+}
+
+.answer-entry1 {
+  background-color: #e2468f;
+}
+.answer-entry2 {
+  background-color: rgb(82, 93, 253);
+}
+.answer-entry3 {
+  background-color: rgb(65, 182, 65);
+}
+.answer-entry4 {
+  background-color: rgb(221, 119, 23);
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { doc, getDoc} from "firebase/firestore";
+import { db } from './firebase';
 
 
 class Menu extends Component{
@@ -16,11 +18,21 @@ class Menu extends Component{
 	}
 
 	
-    handleJoinButtonClick(){
+    async handleJoinButtonClick(){
 		if ( this.state.game_code == null || this.state.game_code.length < 6){
 			alert("Must be a 6-Digit Code!")
-			return
+			return;
 		}
+
+		const docRef = doc(db, "question_banks", this.state.game_code);
+		const docSnap = await getDoc(docRef);
+
+		if (!docSnap.exists()){
+			alert("This game doesn't exist!");
+			return;
+		}
+
+
 
 		this.props.setGameCode(this.state.game_code);		
 		this.props.setJoinStates();

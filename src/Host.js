@@ -113,7 +113,6 @@ class Host extends Component {
                 
             </div>
             
-
             :
      
                 <Ranking game_code={this.props.game_code} game_data={this.props.game_data}

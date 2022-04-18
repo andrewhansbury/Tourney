@@ -16,6 +16,11 @@ body {
   min-height: 90vh;
   color: white;
   position: relative;
+  height: 100%;
+  width: 100%;
+
+  padding: 0px;
+  margin: 0px;
 }
 
 .App {
@@ -24,16 +29,22 @@ body {
   justify-content: center;
   position: relative;
   background-color: #533675;
-  width: 750px;
-  min-height: 500px;
-  height: min-content;
+  width: 40vw;
+  height: 55vh;
   border-radius: 15px;
-  padding: 20px;
-  padding-left: 20px;
   box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+
+  padding: 0px;
+  margin: 0px;
+
+/* Delete for full responsive */
+  min-width: 650px;
+
 }
 
 .Menu-container {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,14 +53,15 @@ body {
 
 .M_header {
   font-family: "Rubik", sans-serif;
-  font-size: 55px;
+  font-size: 2.75vw;
   font-style: italic;
 
   width: 100%;
+  height: fit-content;
   display: flex;
   justify-content: center;
-
   position: relative;
+  margin: 0 !important;
 }
 
 .M_code_entry {
