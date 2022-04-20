@@ -9,6 +9,8 @@ class Game extends Component {
     constructor(props){
         super(props);
         this.state = {
+            gameRef : null,
+
             game_code: props.game_code,
             player_name: '',
             joined : false,
@@ -19,6 +21,8 @@ class Game extends Component {
             timer_done : false,
             show_question : false,
 
+            matchup_id : null,
+            curr_matchup : "No one! (Bye Round)",
             feedback : null,
             answered : false,
             wins : 0,
@@ -36,6 +40,7 @@ class Game extends Component {
     async handleJoinButtonClick(){
         
         const gameRef = doc(db, "question_banks", this.state.game_code);
+        this.setState({gameRef : gameRef});
         
         await updateDoc(gameRef, {
             players: arrayUnion(this.state.player_name),
@@ -44,12 +49,48 @@ class Game extends Component {
 
         this.setState({joined: true})
     
+    }
+
+    getMatchup (){
+
+        const matchups = this.state.game_data.matchups;
+
+        for (const index in matchups){
+            const pos = matchups[index].indexOf(this.state.player_name)
+           if(pos !== -1){
+               this.setState({matchup_id : index})
+                if (pos === 0){
+                    
+                    return matchups[index][1];
+                }
+                else{
+                    return matchups[index][0];
+
+                }               
+           } 
+        }
+    }
+
+    async calculateWinner(){
+        console.log("Calculating winner");
+
+
+        if (this.state.matchup_id in this.state.game_data.matchup_winner){
+            return
+        }
+        else{
+           
+            await updateDoc(this.state.gameRef, {
+                ["matchup_winner." + this.state.matchup_id]: this.state.player_name
+              });
+
+        }
 
     }
 
-    componentDidMount(){
+    
 
-        
+    componentDidMount(){
 
         // const docRef = doc(db, "question_banks", this.props.game_code);
         const unsub = onSnapshot(
@@ -62,6 +103,8 @@ class Game extends Component {
             this.setState({curr_num:  doc.data().curr_num});
             this.setState({show_question : doc.data().show_question});
             this.setState({bank_name : doc.data().bank_name})
+
+            this.setState({curr_matchup : this.getMatchup()});
 
 
             });
@@ -89,6 +132,8 @@ class Game extends Component {
             );
             this.setState({feedback : "Correct"})
             this.setState({wins:this.state.wins+1})
+            // update matchup winner
+            this.calculateWinner();
         }
         else{
             await updateDoc(docRef, {
@@ -114,7 +159,7 @@ class Game extends Component {
     render() {
         
 
-        if (this.state.joined == false){
+        if (this.state.joined === false){
             return (
                 <div className='join-container'>
 
@@ -142,7 +187,7 @@ class Game extends Component {
             );
         }
 
-        else if (this.state.started == false) {
+        else if (this.state.started === false) {
             return(
                 <div className='waiting-container'>
                     <h1> Welcome, {this.state.player_name}!</h1>
@@ -156,15 +201,21 @@ class Game extends Component {
         }
     
 
-        else if (this.state.show_question ==true){
-            if (this.state.answered == false){
+        else if (this.state.show_question === true){
+
+            if (this.state.answered === false){
                 return(
-                    <div>
-                            <div className='question-info'> 
-                            <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
+                    <div className='game-container'>
+                        <div className='question-info'> 
+
+                            <h2>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h2> 
                             {/* <span id="countdowntimer">10 </span> */}
-                            
+
+                            <h3>{this.state.player_name} (YOU) vs {this.state.curr_matchup}</h3>
+
+                        
                         </div>
+                        
                         <div className='game-answers'>
                             <div>
                                 <button className='buttona1' onClick={() => this.handleAnswerClick(1)}> </button>

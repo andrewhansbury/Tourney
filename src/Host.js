@@ -59,21 +59,20 @@ class Host extends Component {
         this.setState({curr_num : this.state.curr_num+1 })
         this.setState({timer_done : false})
 
-
         const docRef  = doc(db, "question_banks", this.props.game_code);
         await updateDoc(docRef, {curr_num: increment(1)});
         await updateDoc(docRef, {show_question:true});
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
 
+    }
 
-
-       
+    updateMatchups(){
+        
     }
 
     componentDidMount(){
 
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
-
 
     }
 

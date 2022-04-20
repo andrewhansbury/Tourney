@@ -38,7 +38,8 @@ body {
   margin: 0px;
 
 /* Delete for full responsive */
-  min-width: 650px;
+  min-height: 600px;
+  min-width: 600px;
 
 }
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { doc, onSnapshot, getDoc, updateDoc} from "firebase/firestore";
 // import {onValue} from 'firebase/database'
 import { db } from './firebase';
-import Host from './Host';
 import { PropagateLoader, BeatLoader } from 'react-spinners';
-
+import Brackety from './bracket';
+import Host from './Host'
 
 
 class PreHost extends Component {
@@ -13,21 +13,27 @@ class PreHost extends Component {
         
         this.state = {
             loading : true,
+            docRef: null,
             game_data : null,
-            started : false
+            matchups : null,
+
+            show_lobby : true,
+            show_matchups : false,
+            started : false,
+            
+            
             
         }
-
-        console.log(this.props.game_code)
-                
     }
 
     async getGameData(){
         this.setState({loading: true})
     
         const docRef = doc(db, "question_banks", this.props.game_code);
+        this.setState({docRef : docRef});
         const docSnap = await getDoc(docRef);
         let data = docSnap.data();
+       
         
         this.setState({game_data: data});
         this.setState({loading: false})
@@ -47,12 +53,61 @@ class PreHost extends Component {
 
               this.setState({game_data: doc.data()})
             });
+    }
+
+    async matchupsButtonClick(){
+        var matches = this.createMatchups(this.state.game_data.players);
+        this.setState({matchups : matches})
+
+        this.setState({show_lobby : false});
+        this.setState({show_matchups : true});
+
+        const matches_obj = Object.assign({}, matches);
+        await updateDoc(this.state.docRef, {
+            matchups: matches_obj
+          });
+
+
 
     }
 
+    createMatchups(players){
+    
+        this.shuffle(players);
+        var groups = [];
+    
+        for (var i =0; i<players.length; i+=2){
+          groups.push(players.slice(i,i+2));
+        }
+        
+        // Checking for uneven matchup (last elem in arr)
+        if (groups[groups.length -1].length === 1){
+            groups[groups.length -1].push("");
+        }
+    
+        return groups;
+    
+      }
+
+      shuffle(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var x = Math.floor(Math.random() * arr.length);
+            var y = Math.floor(Math.random() * arr.length);
+            if (x === y) { //for dont change arr[index] with self !!!
+                continue;
+            }
+            var temp0 = arr[x];
+            arr[x] = arr[y];
+            arr[y] = temp0;
+        }
+        return arr
+    }
+
+    
 
     async beginButtonClick(){
-        this.setState({started : true})
+        this.setState({show_matchups : false});
+        this.setState({started : true});
         const docRef = doc(db, "question_banks", this.props.game_code);
         await updateDoc(docRef, {
             started: true,
@@ -60,6 +115,7 @@ class PreHost extends Component {
         });
 
     }
+
 
  
     render() {
@@ -69,7 +125,8 @@ class PreHost extends Component {
             return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
         }
 
-        else if (this.state.started == false){
+        else if (this.state.show_lobby === true){
+            
 
             return (   
 
@@ -88,24 +145,50 @@ class PreHost extends Component {
 
                     </div>
 
-                    <div className='begin'>
-                    <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
+                    <div className='matchup-button'>
+                    <button className='join-button btn-hover' onClick = {() => {this.matchupsButtonClick()}}> Show Matchups! </button>
                     </div>
                 </div>
             );
         }
 
-        else if (this.state.started == true){
-
+        else if (this.state.show_matchups === true){
+            
+           
             return (
-                // <h1>HI</h1>
+              
+                <div className='hmmm'>
+
+                    <h1>Matchups!</h1>
+                    <Brackety matchups={this.state.matchups}/>
+
+                    <div className='begin'>
+                    <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
+                    </div>
+
+                </div>
+                
+                  
                     
+
+
+            );
+        }
+
+        else if (this.state.started === true){
+                
+            return (
+
                 <Host game_data = {this.state.game_data} game_code = {this.props.game_code} />
 
 
             );
+
         }
     }
 }
 
 export default PreHost;
+
+
+

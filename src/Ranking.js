@@ -7,6 +7,7 @@ class Ranking extends Component {
     constructor(props){
         super(props);
         this.state = {
+            scores : props.game_data.scores
 
         }
     }
@@ -16,6 +17,16 @@ class Ranking extends Component {
         await updateDoc(docRef, {show_question:false});
     }
 
+
+    sortScores (scores){
+        let entries = Object.entries(scores);
+// [["you",100],["me",75],["foo",116],["bar",15]]
+
+        let sorted = entries.sort((a, b) =>  b[1] - a[1] );
+        // [["bar",15],["me",75],["you",100],["foo",116]]
+        console.log(sorted)
+        return sorted;
+    }
     
 
     componentDidMount(){
@@ -23,16 +34,12 @@ class Ranking extends Component {
     }
 
     renderObject(){
-		return Object.entries(this.props.game_data.scores).map(([key, value], i) => {
-            if (value.wins == undefined){
-                value.wins = 0;
-            } 
-            if (value.losses == undefined){
-                value.losses = 0;
-            } 
+        // Display the top 5 ranked players
+		return Object.entries(this.sortScores(this.state.scores).slice(0,5)).map(([key, value], i) => {
+
 			return (
 				<div key={key}>
-					{key}: {value.wins} Win, {value.losses} Loss
+					<h3>{parseInt(key)+1}. {value[0]}: {value[1]} </h3>
 				</div>
 			)
 		})

@@ -23,7 +23,31 @@
 .players {
 }
 .begin {
-  display: inline-flex;
   position: absolute;
   bottom: 0px;
+}
+
+.matchup-button {
+  position: absolute;
+  bottom: 0px;
+}
+
+/* The asterix sends to all children */
+/* .hmmm *{
+  width: 100%;
+} */
+/* The arrow sends to child* */
+
+.hmmm{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+.hmmm >div{
+  flex-grow: 1;
+  width: 100%;
+  justify-content: center;
+  
 }

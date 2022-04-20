@@ -146,7 +146,8 @@ class Create extends Component {
         scores : {},
         started:false,
         show_question:false,
-        curr_num : 1
+        curr_num : 1,
+        matchups: {}
         }, {merge:true});
 
     }
