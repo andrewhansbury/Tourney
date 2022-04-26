@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { doc, getDoc} from "firebase/firestore";
 import { db } from './firebase';
+import { BeatLoader } from 'react-spinners';
 
 
 class Menu extends Component{
     constructor(props){
         super(props);
 		this.state = {
+			loading : false,
 			game_code: null
 		}
     }
@@ -24,6 +26,8 @@ class Menu extends Component{
 			return;
 		}
 
+		this.setState({loading : true});
+
 		const docRef = doc(db, "question_banks", this.state.game_code);
 		const docSnap = await getDoc(docRef);
 
@@ -32,9 +36,11 @@ class Menu extends Component{
 			return;
 		}
 
-
-
+		console.log(docSnap.data().bank_name)
 		this.props.setGameCode(this.state.game_code);		
+		this.props.setBankName(docSnap.data().bank_name);		
+
+		this.setState({loading:false});
 		this.props.setJoinStates();
 	}
 
@@ -50,34 +56,41 @@ class Menu extends Component{
 
 
     render() {
-        return (
-			<div className="Menu-container">
 
-				<div className="M_header">
-					<h1>Tourney!</h1>
+		if (this.state.loading){
+            return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
+        }
+		
+		else{
+			return (
+				<div className="Menu-container">
+
+					<div className="M_header">
+						<h1>Tourney!</h1>
+					</div>
+
+					<div className="M_code_entry">
+						<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+					</div>
+
+					<div className="M_join_button">
+						<button className="join-button btn-hover" onClick={() =>
+							{this.handleJoinButtonClick()}}>Join!</button>
+					</div>
+
+					<div className="M_join_button">
+						<button className="create-button btn-hover" onClick={ () => 
+							{this.handleCreateButtonClick()}}> Create Game </button>
+					</div>
+
+					<div> 
+						<button className='create-buttons' onClick={ () => 
+							{this.handleMadeButtonClick()}}> I Already Made a Game</button>
+					</div>
+
 				</div>
-
-				<div className="M_code_entry">
-					<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
-				</div>
-
-				<div className="M_join_button">
-					<button className="join-button btn-hover" onClick={() =>
-						{this.handleJoinButtonClick()}}>Join!</button>
-				</div>
-
-				<div className="M_join_button">
-					<button className="create-button btn-hover" onClick={ () => 
-						{this.handleCreateButtonClick()}}> Create Game </button>
-				</div>
-
-				<div> 
-					<button className='create-buttons' onClick={ () => 
-						{this.handleMadeButtonClick()}}> I Already Made a Game</button>
-				</div>
-
-			</div>
-		);
+			);
+		}
     }
 }
 

@@ -14,14 +14,15 @@ class App extends Component {
 		this.setCreateStates = this.setCreateStates.bind(this);
 		this.setJoinStates = this.setJoinStates.bind(this);
 		this.setMenuStates = this.setMenuStates.bind(this);
-		// this.setGameCode = this.setGameCode.bind(this);
+		this.setBankName = this.setBankName.bind(this);
 
 		this.state = {
 			menuScreenState: true,
 			joinScreenState: false,
 			createScreenState: false,
 			madeScreenState: false,
-			game_code: null
+			game_code: null,
+			bank_name : null
 		};
 
 	}
@@ -30,7 +31,11 @@ class App extends Component {
 
 	setGameCode(code){
 		this.setState({game_code: code});
-		
+	}
+
+	setBankName(name){
+		this.setState({bank_name: name});
+		console.log("bank name set", this.state.bank_name)
 	}
 	
 
@@ -71,7 +76,7 @@ class App extends Component {
 				{}
 				
 				<Menu setMadeStates = {this.setMadeStates.bind(this)} setGameCode = {this.setGameCode.bind(this)}
-				 setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} />
+				 setCreateStates = {this.setCreateStates} setJoinStates={this.setJoinStates} setBankName={this.setBankName} />
 			</div>
 			:
 			this.state.createScreenState ? 
@@ -84,7 +89,7 @@ class App extends Component {
 			:
 			this.state.joinScreenState ?
 			<div className="App">
-				<Game setMenuStates ={this.setMenuStates} game_code={this.state.game_code}/>
+				<Game setMenuStates ={this.setMenuStates} game_code={this.state.game_code} bank_name={this.state.bank_name}/>
 			</div>
 			
 			:

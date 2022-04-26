@@ -17,7 +17,6 @@ class Host extends Component {
             // seconds : this.props.game_data.questions.q1.seconds 
 
         }
-
     }
 
     async questionTimer (seconds) {
@@ -35,14 +34,10 @@ class Host extends Component {
             document.getElementById("countdowntimer").textContent = timeleft;
         }
         if(timeleft <= 0){
-        
             clearInterval(downloadTimer);
-
         }
             
         },1000);
-
-
     }
 
     getQ(){
@@ -67,7 +62,7 @@ class Host extends Component {
     }
 
     updateMatchups(){
-        
+
     }
 
     componentDidMount(){

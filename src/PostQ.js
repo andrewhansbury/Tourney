@@ -6,13 +6,11 @@ class PostQ extends Component {
         this.state = {
             
         }
-
     }
 
     componentWillUnmount(){
         this.props.setAnweredFalse();
     }
-
     
 
     render() {

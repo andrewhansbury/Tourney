@@ -2,21 +2,22 @@
 import React, { Component } from 'react';
 import { doc, updateDoc, arrayUnion, onSnapshot, increment } from "firebase/firestore";
 import { db } from './firebase';
-import { BarLoader, HashLoader } from 'react-spinners';
+import { BarLoader, HashLoader, BeatLoader } from 'react-spinners';
 import PostQ from './PostQ';
 
 class Game extends Component {
     constructor(props){
         super(props);
         this.state = {
+            loading : true,
             gameRef : null,
 
             game_code: props.game_code,
+            bank_name : props.bank_name,
             player_name: '',
             joined : false,
             game_data: null,
             started : false,
-            bank_name : '',
             curr_num : 0,
             timer_done : false,
             show_question : false,
@@ -83,15 +84,13 @@ class Game extends Component {
             await updateDoc(this.state.gameRef, {
                 ["matchup_winner." + this.state.matchup_id]: this.state.player_name
               });
-
         }
-
     }
 
     
 
     componentDidMount(){
-
+        
         // const docRef = doc(db, "question_banks", this.props.game_code);
         const unsub = onSnapshot(
             doc(db, "question_banks", this.props.game_code), 
@@ -102,14 +101,16 @@ class Game extends Component {
             this.setState({started:  doc.data().started});
             this.setState({curr_num:  doc.data().curr_num});
             this.setState({show_question : doc.data().show_question});
-            this.setState({bank_name : doc.data().bank_name})
-
             this.setState({curr_matchup : this.getMatchup()});
 
+        });
 
-            });
-        }
+        this.setState({loading: false});
 
+
+    }
+
+        
 
 
     handleMenuButtonClick(){
@@ -143,7 +144,6 @@ class Game extends Component {
             this.setState({losses:this.state.losses+1})
 
         }
-    
     }
 
 
@@ -157,9 +157,12 @@ class Game extends Component {
     }
 
     render() {
-        
 
-        if (this.state.joined === false){
+        if (this.state.loading){
+            return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
+        }
+		
+		else if (this.state.joined === false){
             return (
                 <div className='join-container'>
 
@@ -196,8 +199,7 @@ class Game extends Component {
 
                     <BarLoader color={'#A2C1FA'} height={12} width={250}/>
                 </div>  
-            )
-            
+            )   
         }
     
 
@@ -244,8 +246,6 @@ class Game extends Component {
                     </div>
                 )
             }
-            
-
         }
 
         else{
@@ -255,10 +255,7 @@ class Game extends Component {
                 wins= {this.state.wins} losses={this.state.losses} />
 
             );
-
         }
-               
-       
     }
 }
 

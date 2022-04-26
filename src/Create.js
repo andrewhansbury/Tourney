@@ -192,8 +192,6 @@ class Create extends Component {
         for (const element of this.state.question_bank){
             this.addToDatabase(gameID, element);
         };
-
-
     }
 
 
@@ -321,23 +319,18 @@ class Create extends Component {
 
                 </div>   
 
-                
-            
+                        
                 <button style={{float:'center'}} className= "create-buttons" onClick={ () => {this.handleAddButtonClick()}}>Add Question</button>
 
             
-            
             <div>
-                
 
                 <button className='create-buttons'   onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
-
-                
                 <button className='create-buttons' style={{float:'right'}} onClick={ () => {this.handleFinishedButtonClick()}}>Finished</button>
                 
             </div>
 
-            </div>
+        </div>
      
 
         );

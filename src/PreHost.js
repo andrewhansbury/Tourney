@@ -20,9 +20,7 @@ class PreHost extends Component {
             show_lobby : true,
             show_matchups : false,
             started : false,
-            
-            
-            
+               
         }
     }
 
@@ -65,9 +63,7 @@ class PreHost extends Component {
         const matches_obj = Object.assign({}, matches);
         await updateDoc(this.state.docRef, {
             matchups: matches_obj
-          });
-
-
+        });
 
     }
 
@@ -89,7 +85,7 @@ class PreHost extends Component {
     
       }
 
-      shuffle(arr) {
+    shuffle(arr) {
         for (var i = 0; i < arr.length; i++) {
             var x = Math.floor(Math.random() * arr.length);
             var y = Math.floor(Math.random() * arr.length);
@@ -127,7 +123,6 @@ class PreHost extends Component {
 
         else if (this.state.show_lobby === true){
             
-
             return (   
 
                 <div className='All'>
@@ -154,7 +149,6 @@ class PreHost extends Component {
 
         else if (this.state.show_matchups === true){
             
-           
             return (
               
                 <div className='hmmm'>
@@ -167,11 +161,6 @@ class PreHost extends Component {
                     </div>
 
                 </div>
-                
-                  
-                    
-
-
             );
         }
 
@@ -181,9 +170,7 @@ class PreHost extends Component {
 
                 <Host game_data = {this.state.game_data} game_code = {this.props.game_code} />
 
-
             );
-
         }
     }
 }
