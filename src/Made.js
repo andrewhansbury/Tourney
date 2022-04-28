@@ -17,6 +17,12 @@ class Made extends Component {
         this.setState({game_code: event.target.value});
     }
 
+    enterPress = (e) =>{
+		if (e.keyCode === 13) {
+			this.handleStartButtonClick();
+		}
+	}
+
     handleStartButtonClick =(event) => {
 
         if (this.state.game_code.length != 6 || this.checkGameCode(this.state.game_code) == false) 
@@ -64,7 +70,7 @@ class Made extends Component {
 
                 </div>
                 <div className="M_code_entry">
-					<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+					<input value={this.game_code} onChange={this.handleCodeInput} autoFocus onKeyDown={(e) => this.enterPress(e)} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
             
                 </div>
                     

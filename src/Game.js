@@ -40,7 +40,14 @@ class Game extends Component {
         
     }
 
+    enterPress = (e) =>{
+		if (e.keyCode === 13) {
+			this.handleJoinButtonClick();
+		}
+	}
+
     async handleJoinButtonClick(){
+        this.setState({loading : true});
         
         const gameRef = doc(db, "question_banks", this.state.game_code);
         this.setState({gameRef : gameRef});
@@ -49,6 +56,8 @@ class Game extends Component {
             players: arrayUnion(this.state.player_name),
   
         });
+
+        this.setState({loading:false});
 
         this.setState({joined: true})
     
@@ -79,7 +88,7 @@ class Game extends Component {
 
 
         if (this.state.matchup_id in this.state.game_data.matchup_winner){
-            return
+            return;
         }
         else{
            
@@ -91,8 +100,7 @@ class Game extends Component {
 
 
     componentDidMount(){
-        
-        // const docRef = doc(db, "question_banks", this.props.game_code);
+
         onSnapshot(
             doc(db, "question_banks", this.props.game_code), 
             { includeMetadataChanges: true }, 
@@ -126,8 +134,6 @@ class Game extends Component {
 
         await updateDoc(docRef, {answered_players: arrayUnion(this.state.player_name)})
 
-        const update_wins = "scores." + this.state.player_name  + ".wins";
-        const update_lossess = "scores." + this.state.player_name  + ".losses";
 
         if (answers.includes(choice)){
             await updateDoc(docRef, {
@@ -139,24 +145,6 @@ class Game extends Component {
             this.calculateWinner();
         }
         
-
-        // if (answers.includes(choice)){
-        //     await updateDoc(docRef, {
-        //         [update_wins] : increment(1)}
-        //     );
-        //     this.setState({feedback : "Correct"})
-        //     this.setState({wins:this.state.wins+1})
-        //     // update matchup winner
-        //     this.calculateWinner();
-        // }
-        // else{
-        //     await updateDoc(docRef, {
-        //         [update_lossess] : increment(1)}
-        //     );
-        //     this.setState({feedback : "Incorrect"})
-        //     this.setState({losses:this.state.losses+1})
-
-        // }
     }
 
 
@@ -189,7 +177,7 @@ class Game extends Component {
                     </div>
 
                     <div>
-                        <input className='entry-1' placeholder='Name' type= "text" value={this.state.player_name} onChange={this.handleNameInput}/> 
+                        <input className='entry-1' placeholder='Name' type= "text" autoFocus value={this.state.player_name} onChange={this.handleNameInput} onKeyDown={(e) => this.enterPress(e)}/> 
                     </div>
                     <div>
                         <button className="join-button btn-hover" onClick={ () => {this.handleJoinButtonClick()}}>Enter Game!</button>

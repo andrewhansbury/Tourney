@@ -19,6 +19,12 @@ class Menu extends Component{
 		
 	}
 
+
+	enterPress = (e) =>{
+		if (e.keyCode === 13) {
+			this.handleJoinButtonClick();
+		}
+	}
 	
     async handleJoinButtonClick(){
 		if ( this.state.game_code == null || this.state.game_code.length < 6){
@@ -62,19 +68,19 @@ class Menu extends Component{
 		
 		else{
 			return (
-				<div className="Menu-container">
+				<div className="Menu-container" >
 
 					<div className="M_header">
 						<h1>Tourney!</h1>
 					</div>
 
 					<div className="M_code_entry">
-						<input value={this.game_code} onChange={this.handleCodeInput} className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+						<input value={this.game_code} onChange={this.handleCodeInput} autoFocus onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
 					</div>
 
 					<div className="M_join_button">
 						<button className="join-button btn-hover" onClick={() =>
-							{this.handleJoinButtonClick()}}>Join!</button>
+							{this.handleJoinButtonClick()}} >Join!</button>
 					</div>
 
 					<div className="M_join_button">
