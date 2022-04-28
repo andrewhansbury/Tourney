@@ -13,22 +13,21 @@ class PreHost extends Component {
         
         this.state = {
             loading : true,
-            docRef: null,
+            docRef: doc(db, "question_banks", this.props.game_code),
             game_data : null,
             matchups : null,
 
             show_lobby : true,
             show_matchups : false,
-            started : false,
+            started : false
                
         }
     }
 
     async getGameData(){
         this.setState({loading: true})
-    
-        const docRef = doc(db, "question_banks", this.props.game_code);
-        this.setState({docRef : docRef});
+        
+        const docRef = this.state.docRef;
         const docSnap = await getDoc(docRef);
         let data = docSnap.data();
        
@@ -44,7 +43,7 @@ class PreHost extends Component {
         this.getGameData()
 
         // const docRef = doc(db, "question_banks", this.props.game_code);
-        const unsub = onSnapshot(
+        onSnapshot(
             doc(db, "question_banks", this.props.game_code), 
             { includeMetadataChanges: true }, 
             (doc) => {
@@ -54,6 +53,10 @@ class PreHost extends Component {
     }
 
     async matchupsButtonClick(){
+        if (this.state.game_data.players.length < 2){
+            alert("You need at least 2 players to play!");
+            return;
+        }
         var matches = this.createMatchups(this.state.game_data.players);
         this.setState({matchups : matches})
 
@@ -104,7 +107,7 @@ class PreHost extends Component {
     async beginButtonClick(){
         this.setState({show_matchups : false});
         this.setState({started : true});
-        const docRef = doc(db, "question_banks", this.props.game_code);
+        const docRef = this.state.docRef;
         await updateDoc(docRef, {
             started: true,
             show_question : true
@@ -168,7 +171,7 @@ class PreHost extends Component {
                 
             return (
 
-                <Host game_data = {this.state.game_data} game_code = {this.props.game_code} />
+                <Host game_data = {this.state.game_data} game_code = {this.props.game_code} docRef = {this.state.docRef} />
 
             );
         }

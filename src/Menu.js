@@ -36,7 +36,6 @@ class Menu extends Component{
 			return;
 		}
 
-		console.log(docSnap.data().bank_name)
 		this.props.setGameCode(this.state.game_code);		
 		this.props.setBankName(docSnap.data().bank_name);		
 

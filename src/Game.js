@@ -22,12 +22,14 @@ class Game extends Component {
             timer_done : false,
             show_question : false,
 
+            
             matchup_id : null,
             curr_matchup : "No one! (Bye Round)",
             feedback : null,
             answered : false,
             wins : 0,
-            losses : 0
+            losses : 0,
+            question_points: 50
             
         };
         
@@ -54,7 +56,7 @@ class Game extends Component {
 
     getMatchup (){
 
-        const matchups = this.state.game_data.matchups;
+        const matchups = this.state.game_data.matchups; 
 
         for (const index in matchups){
             const pos = matchups[index].indexOf(this.state.player_name)
@@ -87,12 +89,11 @@ class Game extends Component {
         }
     }
 
-    
 
     componentDidMount(){
         
         // const docRef = doc(db, "question_banks", this.props.game_code);
-        const unsub = onSnapshot(
+        onSnapshot(
             doc(db, "question_banks", this.props.game_code), 
             { includeMetadataChanges: true }, 
             (doc) => {
@@ -107,11 +108,9 @@ class Game extends Component {
 
         this.setState({loading: false});
 
-
     }
 
         
-
 
     handleMenuButtonClick(){
         this.props.setMenuStates();
@@ -120,30 +119,44 @@ class Game extends Component {
 
     async handleAnswerClick(choice){
         this.setState({answered : true})
+        
 
         const answers = this.state.game_data.questions[this.getQ()].correct_answers;
         const docRef  = doc(db, "question_banks", this.props.game_code);
+
+        await updateDoc(docRef, {answered_players: arrayUnion(this.state.player_name)})
 
         const update_wins = "scores." + this.state.player_name  + ".wins";
         const update_lossess = "scores." + this.state.player_name  + ".losses";
 
         if (answers.includes(choice)){
             await updateDoc(docRef, {
-                [update_wins] : increment(1)}
+                scores : this.state.question_points}
             );
             this.setState({feedback : "Correct"})
             this.setState({wins:this.state.wins+1})
-            // update matchup winner
+
             this.calculateWinner();
         }
-        else{
-            await updateDoc(docRef, {
-                [update_lossess] : increment(1)}
-            );
-            this.setState({feedback : "Incorrect"})
-            this.setState({losses:this.state.losses+1})
+        
 
-        }
+        // if (answers.includes(choice)){
+        //     await updateDoc(docRef, {
+        //         [update_wins] : increment(1)}
+        //     );
+        //     this.setState({feedback : "Correct"})
+        //     this.setState({wins:this.state.wins+1})
+        //     // update matchup winner
+        //     this.calculateWinner();
+        // }
+        // else{
+        //     await updateDoc(docRef, {
+        //         [update_lossess] : increment(1)}
+        //     );
+        //     this.setState({feedback : "Incorrect"})
+        //     this.setState({losses:this.state.losses+1})
+
+        // }
     }
 
 

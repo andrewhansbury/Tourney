@@ -30,6 +30,7 @@ class Ranking extends Component {
     
 
     componentDidMount(){
+        this.props.stopTimer();
         this.updateShowQuestion();
     }
 

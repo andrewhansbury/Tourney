@@ -35,7 +35,6 @@ class App extends Component {
 
 	setBankName(name){
 		this.setState({bank_name: name});
-		console.log("bank name set", this.state.bank_name)
 	}
 	
 

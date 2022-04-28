@@ -142,6 +142,7 @@ class Create extends Component {
             } 
         },
         bank_name: '',
+        answered_players : [],
         players:[],
         scores : {},
         started:false,

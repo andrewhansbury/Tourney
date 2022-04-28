@@ -1,43 +1,53 @@
 import React, { Component } from 'react';
-import { doc,  updateDoc, increment } from "firebase/firestore";
+import { doc,  updateDoc, increment, onSnapshot } from "firebase/firestore";
 import Ranking from './Ranking';
 import { db } from './firebase';
+import Timer from 'easytimer.js';
 
 class Host extends Component {
     constructor(props){
         super(props);
         this.state = {
             game_data : this.props.game_data,
-            curr_num : 1,
-            timer_done: false
+            curr_num : this.props.game_data.curr_num,
+            docRef : this.props.docRef,
+            
+            answered_players : [],
 
+            timer_done: false,
+            everyone_answered : false,
 
-            // curr_num : this.props.game_data.curr_num,
-            // curr_question : this.props.game_data.questions.q1,
-            // seconds : this.props.game_data.questions.q1.seconds 
+            timer : new Timer()
 
         }
     }
 
+
     async questionTimer (seconds) {
 
-        setTimeout(function(){
-             this.setState({timer_done:true});
-        }.bind(this), seconds * 1000);
+        var timer = this.state.timer
+        timer.start({countdown: true, startValues: {seconds: seconds}});
 
-        var timeleft = seconds;
-        var downloadTimer = setInterval(function(){
-        timeleft--;
-        
+
         var exists = document.getElementById("countdowntimer");
         if (exists){
-            document.getElementById("countdowntimer").textContent = timeleft;
+            timer.addEventListener('secondsUpdated', function (e) {
+                document.getElementById("countdowntimer").innerHTML = timer.getTotalTimeValues().seconds;
+
+            });
+
         }
-        if(timeleft <= 0){
-            clearInterval(downloadTimer);
+
+        
+
+        const updateState = () => {
+            this.setState({timer_done:true});
         }
-            
-        },1000);
+
+        timer.addEventListener('targetAchieved', function (e){
+            updateState();
+        });
+    
     }
 
     getQ(){
@@ -49,14 +59,19 @@ class Host extends Component {
         this.setState({timer_done : true})
     }
 
+    stopTimer(){
+        this.state.timer.stop();
+
+    }
    
     async nextQuestion(){
         this.setState({curr_num : this.state.curr_num+1 })
         this.setState({timer_done : false})
 
-        const docRef  = doc(db, "question_banks", this.props.game_code);
-        await updateDoc(docRef, {curr_num: increment(1)});
-        await updateDoc(docRef, {show_question:true});
+        const docRef = this.state.docRef;
+        console.log("next question")
+        await updateDoc(docRef, {curr_num: increment(1), show_question: true, answered_players: [] });
+
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
 
     }
@@ -67,18 +82,28 @@ class Host extends Component {
 
     componentDidMount(){
 
+        onSnapshot(
+            doc(db, "question_banks", this.props.game_code), 
+            { includeMetadataChanges: true }, 
+            (doc) => {
+
+            this.setState({answered_players: doc.data().answered_players})
+    
+        });
+
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
 
+
+        
     }
 
 
    
     render() {
+    
         
-        return (
-            
-        !this.state.timer_done ?
-
+        if (!this.state.timer_done && this.state.answered_players.length < this.state.game_data.players.length){ 
+            return (
             <div>
                 <div className='question-info'> 
                 <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
@@ -106,16 +131,15 @@ class Host extends Component {
 
                 
             </div>
-            
-            :
-     
+        )}
+            else{
+
+                return (
                 <Ranking game_code={this.props.game_code} game_data={this.props.game_data}
-                 nextQuestion={this.nextQuestion.bind(this)} />
-            
-        )
+                 nextQuestion={this.nextQuestion.bind(this)} stopTimer = {this.stopTimer.bind(this)} />
+            )}
         
-
-
+    
         
     }
 }
