@@ -51,11 +51,9 @@ class Menu extends Component{
 
     handleCreateButtonClick () {
         this.props.setCreateStates();
-	
 	}
 
 	handleMadeButtonClick(){
-        // this.props.setCreateStates();
 		this.props.setMadeStates();
 	}
 
@@ -89,7 +87,7 @@ class Menu extends Component{
 				<div className="Menu-container" >
 
 					<div className="M_header">
-						<h1>Tourney!</h1>
+						<h1 className='pulse animated'>Tourney!</h1>
 					</div>
 
 					{this.displayEntry()}

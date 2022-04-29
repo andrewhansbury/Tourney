@@ -15,15 +15,7 @@
 
 }
 
-@keyframes pulse {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.1);}
-  100% {transform: scale(1);}
-}
-.pulse {
-  animation-name: pulse;
-  animation-duration: 1s;
-}
+
 .join-container h3 {
   margin-top: 10px;
 }

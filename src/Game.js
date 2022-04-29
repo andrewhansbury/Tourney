@@ -168,7 +168,7 @@ class Game extends Component {
                 <div className='join-container'>
 
                     <div>
-                        <h1 className='pulse'>Enter a name to join "{this.state.bank_name}"!</h1>
+                        <h1>Enter a name to join "{this.state.bank_name}"!</h1>
                     </div>
 
                     <div>
