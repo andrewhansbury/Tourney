@@ -1,46 +1,62 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  /* min-height: 100% !important; */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   font-family: Verdana, Tahoma, sans-serif;
-  background-color: #8cabe4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  color: white;
-  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   height: 100%;
   width: 100%;
-
+  margin: 0px; 
   padding: 0px;
-  margin: 0px;
+  background-color: #8cabe4;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .App {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
+  
   background-color: #533675;
-  width: 40vw;
-  height: 55vh;
+  color: white;
+  
   border-radius: 15px;
-  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 12px 12px 42px 5px rgba(0, 0, 0, 0.75);
 
   padding: 0px;
   margin: 0px;
 
-/* Delete for full responsive */
-  min-height: 500px;
-  min-width: 600px;
+}
 
+@media (min-width: 480px){
+  .App{
+    width: 65vw;
+    height: 75vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .App{
+    min-width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  } 
 }
 
 .Menu-container {
@@ -52,17 +68,14 @@ body {
   justify-content: center;
 }
 
-.M_header {
+.M_header h1{
   font-family: "Rubik", sans-serif;
-  font-size: 2.75vw;
+  font-size: 10vw;
   font-style: italic;
 
   width: 100%;
-  height: fit-content;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  margin: 0 !important;
+  text-align: center;
+  margin: 0;
 }
 
 .M_code_entry {
@@ -70,8 +83,11 @@ body {
 
 .entry-1 {
   text-align: center;
-  min-height: 75px;
+  height: 7vw;
+  width: 25vw;
   max-width: 250px;
+  max-height: 75px;
+  min-width: 200px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   font-size: 30px;
@@ -84,45 +100,64 @@ body {
   line-height: 2;
 }
 
+@media (max-width: 480px) {
+  .M_header h1{
+    font-size: 20vw;
+  }
+  .entry-1{
+    min-width: 200px;
+    min-height: 50px;
+    height: 5.5vw;
+  }
+  .entry-1::-webkit-input-placeholder {
+    font-size: 17px;
+  }
+}
+
 .buttons {
   margin: 10%;
 }
 
 .btn-hover {
-  width: 200px;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: large;
+  font-weight: bold;
   color: #fff;
   cursor: pointer;
-  margin: 20px;
-  height: 55px;
+  margin: 5px;
+
+  height: 6vh;
+  width: 20vw;
+
+  max-height: 55px;
+  max-width: 200px;
+
   text-align: center;
   border: none;
   background-size: 300% 100%;
 
   border-radius: 50px;
-  moz-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 480px){
+  .btn-hover{
+    min-width: 175px;
+    min-height: 50px;
+  }
 }
 
 .btn-hover:hover {
   background-position: 100% 0;
-  moz-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
 
-.btn-hover:focus {
-  outline: none;
-}
 
 .btn-hover.join-button {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: large;
-  font-weight: bold;
   background-image: linear-gradient(
     to right,
     #6253e1,
@@ -131,15 +166,9 @@ body {
     #f24645
   );
   box-shadow: 0 4px 15px 0 rgba(126, 52, 161, 0.75);
-
-  position: relative;
-  top: -5px;
 }
+
 .btn-hover.create-button {
-  margin-top: -5%;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: large;
-  font-weight: bold;
   background-image: linear-gradient(
     to right,
     #29323c,
@@ -148,4 +177,4 @@ body {
     #4e4376
   );
   box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
-}
+} 
