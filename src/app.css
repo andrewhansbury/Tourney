@@ -40,6 +40,8 @@ body {
 
   padding: 0px;
   margin: 0px;
+
+  min-height: 580px;
 }
 
 
@@ -88,6 +90,7 @@ body {
   animation-fill-mode: both;
   animation-iteration-count: infinite;
 }
+
 
 
 @keyframes wobble {

@@ -132,16 +132,19 @@ class PreHost extends Component {
                     <div className='top-text'>
                         <h1 className='made'> Waiting for players!</h1> 
                         <h2>Join at: {this.props.game_code}</h2>
-                        <PropagateLoader color='#A2C1FA'/>
+                        <div>
+                            <PropagateLoader color='#A2C1FA'/>
+                        </div>
                     </div>
 
                     {/* Show all Player names */}
                     <div className='players'>
-                    {this.state.game_data.players.map(
-                        (player, index) => <li key ={index}>{player}</li>
-                        )}
-
+                        {this.state.game_data.players.map(
+                            (player, index) => <li className='animate pulse' key ={index}>{player}</li>
+                            )}
                     </div>
+
+                    <div></div>
 
                     <div className='matchup-button'>
                     <button className='join-button btn-hover' onClick = {() => {this.matchupsButtonClick()}}> Show Matchups! </button>
