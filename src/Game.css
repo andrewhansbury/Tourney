@@ -12,7 +12,6 @@
   font-size: 2.2em;
   margin-bottom: 0px;
   text-align: center;
-
 }
 
 
@@ -26,18 +25,22 @@
 }
 
 .waiting-container {
-  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .waiting-container h1 {
+  font-size: 3rem;
   margin: 0px;
+  padding: 5px;
 }
 .waiting-container h2 {
-  margin-top: 20px;
+  font-size: 1 rem;
+  padding: 10px;
 }
 
 .answered-container {

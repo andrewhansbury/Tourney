@@ -47,6 +47,10 @@ class Game extends Component {
 	}
 
     async handleJoinButtonClick(){
+        if (this.state.player_name === ""){
+            alert("Your name can't be blank!");
+            return;
+        }
         this.setState({loading : true});
         
         const gameRef = doc(db, "question_banks", this.state.game_code);
@@ -197,7 +201,7 @@ class Game extends Component {
 
                     <h2> We're waiting for the host to start the game.</h2>
 
-                    <BarLoader color={'#A2C1FA'} height={12} width={250}/>
+                    <BarLoader color={'#A2C1FA'} height={12} width={300}/>
                 </div>  
             )   
         }
