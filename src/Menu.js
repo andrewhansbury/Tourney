@@ -60,7 +60,7 @@ class Menu extends Component{
 	}
 
 	displayEntry(){
-		if (window.innerWidth> 480){
+		if (window.innerWidth > 480){
 			return (
 				<div className="M_code_entry">
 							<input value={this.game_code} autoFocus onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
@@ -70,7 +70,7 @@ class Menu extends Component{
 		else{
 			return (
 				<div className="M_code_entry">
-							<input value={this.game_code}  onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+							<input type="number" inputMode='numeric' value={this.game_code}  onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
 				</div>
 			);
 		}

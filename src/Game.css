@@ -1,5 +1,4 @@
 .join-container {
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,10 +6,18 @@
 }
 
 .join-container h1 {
+  font-size: 2em;
   margin-bottom: 0px;
+  text-align: center;
+
 }
 .join-container h3 {
   margin-top: 10px;
+}
+
+.J_bottom_button{
+  position: absolute;
+  bottom: 10px;
 }
 
 .waiting-container {

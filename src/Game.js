@@ -183,9 +183,8 @@ class Game extends Component {
                         <button className="join-button btn-hover" onClick={ () => {this.handleJoinButtonClick()}}>Enter Game!</button>
                     </div>
                     
-                    <div>
-                        <button className='create-buttons' onClick={ () => {this.handleMenuButtonClick()}}>Menu</button>
-
+                    <div className='J_bottom_button'>
+                        <button className='create-buttons' onClick={ () => {this.handleMenuButtonClick()}}>Main Menu</button>
                     </div>
                 </div>
             );
