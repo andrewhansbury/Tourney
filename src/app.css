@@ -44,6 +44,8 @@ body {
 
 }
 
+
+/* Desktop */
 @media (min-width: 480px){
   .App{
     width: 65vw;
@@ -51,12 +53,14 @@ body {
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .App{
     min-width: 100vw;
     height: 100vh;
     overflow: hidden;
   } 
+
 }
 
 .Menu-container {
@@ -66,6 +70,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .M_header h1{
@@ -78,8 +83,7 @@ body {
   margin: 0;
 }
 
-.M_code_entry {
-}
+
 
 .entry-1 {
   text-align: center;
@@ -177,4 +181,17 @@ body {
     #4e4376
   );
   box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+
+  margin-bottom: 10px;
+
 } 
+
+.M_bottom_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 10vh;
+}
+
