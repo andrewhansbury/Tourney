@@ -78,8 +78,8 @@ class Made extends Component {
                         <button className="join-button btn-hover" onClick={() => {this.handleStartButtonClick()}}>Start!</button>
                     </div>
 
-                    <div>
-                        <button className='create-buttons'  onClick={() => {this.handleMenuButtonClick()}}>Menu</button>
+                    <div className='bottom-button'>
+                        <button className='create-buttons'  onClick={() => {this.handleMenuButtonClick()}}>Main Menu</button>
 
                     </div>
 

@@ -128,7 +128,7 @@ class PreHost extends Component {
             
             return (   
 
-                <div className='All'>
+                <div className='Waiting-container'>
                     <div className='top-text'>
                         <h1 className='made'> Waiting for players!</h1> 
                         <h2>Join at: {this.props.game_code}</h2>

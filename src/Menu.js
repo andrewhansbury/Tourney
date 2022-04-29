@@ -68,7 +68,7 @@ class Menu extends Component{
 		else{
 			return (
 				<div className="M_code_entry">
-							<input type="number" inputMode='numeric' value={this.game_code}  onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
+							<input type="number" inputMode='numeric' value={this.game_code}  onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" placeholder="6-DIGIT CODE" maxLength="6" />
 				</div>
 			);
 		}
