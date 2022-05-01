@@ -157,13 +157,13 @@ class PreHost extends Component {
             
             return (
               
-                <div className='hmmm'>
+                <div className='matchup-container'>
 
                     <h1>Matchups!</h1>
                     <Brackety matchups={this.state.matchups}/>
 
-                    <div className='begin'>
-                    <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
+                    <div className='begin-button'>
+                        <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
                     </div>
 
                 </div>

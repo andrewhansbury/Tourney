@@ -237,7 +237,6 @@ class Game extends Component {
                         <h1>Waiting for the question to finish!</h1>
                         <div>
                             <HashLoader size={100} color={'#A2C1FA'}/>
-
                         </div>
                     </div>
                 )

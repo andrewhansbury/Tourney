@@ -65,7 +65,7 @@ class Made extends Component {
     render() {
         return (
             <div className='made-container'>
-                <div>
+                <div className='made-text'>
                     <h1>Enter your Tourney's Code!</h1>
 
                 </div>

@@ -64,7 +64,7 @@ class Menu extends Component{
 			return (
 				<div className="M_code_entry">
 							<input value={this.game_code} autoFocus onChange={this.handleCodeInput} onKeyDown={(e) => this.enterPress(e)}  className = "entry-1" type="text" placeholder="6-DIGIT CODE" maxLength="6" />
-						</div>
+				</div>
 			);
 		}
 		else{
