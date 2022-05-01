@@ -39,7 +39,9 @@ class Menu extends Component{
 
 		if (!docSnap.exists()){
 			alert("This game doesn't exist!");
+			this.setState({loading: false});
 			return;
+
 		}
 
 		this.props.setGameCode(this.state.game_code);		
