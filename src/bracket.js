@@ -64,20 +64,14 @@ class Brackety extends Component {
     return arr
 }
 
-  
-  
     render() {
         return (
           
           <Bracket rounds={this.state.rounds} mobileBreakpoint={500} />
 
-
         );
     }
 }
-
-
-
 
 
 export default Brackety;

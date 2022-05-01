@@ -66,11 +66,6 @@
   bottom: 10px;
 }
 
-/* The asterix sends to all children */
-/* .hmmm *{
-  width: 100%;
-} */
-/* The arrow sends to child* */
 
 .hmmm{
   width: 100%;
@@ -80,7 +75,7 @@
 
 
 .hmmm >div{
-  flex-grow: 1;
+  /* flex-grow: 1; */
   width: 100%;
   justify-content: center;
   

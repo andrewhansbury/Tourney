@@ -14,8 +14,8 @@ class Game extends Component {
 
             game_code: props.game_code,
             bank_name : props.bank_name,
-            player_name: '',
-            joined : false,
+            player_name: '', 
+            joined : false, //false
             game_data: null,
             started : false,
             curr_num : 0,
@@ -32,13 +32,13 @@ class Game extends Component {
             question_points: 50
             
         };
-        
     }
+
 
     handleNameInput = (event) => {
         this.setState({player_name: event.target.value});
-        
     }
+
 
     enterPress = (e) =>{
 		if (e.keyCode === 13) {
@@ -46,6 +46,7 @@ class Game extends Component {
 		}
 	}
 
+    
     async handleJoinButtonClick(){
         if (this.state.player_name === ""){
             alert("Your name can't be blank!");
@@ -62,10 +63,9 @@ class Game extends Component {
         });
 
         this.setState({loading:false});
-
         this.setState({joined: true})
-    
     }
+
 
     getMatchup (){
 
@@ -90,12 +90,10 @@ class Game extends Component {
     async calculateWinner(){
         console.log("Calculating winner");
 
-
         if (this.state.matchup_id in this.state.game_data.matchup_winner){
             return;
         }
         else{
-           
             await updateDoc(this.state.gameRef, {
                 ["matchup_winner." + this.state.matchup_id]: this.state.player_name
               });
@@ -119,10 +117,8 @@ class Game extends Component {
         });
 
         this.setState({loading: false});
-
     }
-
-        
+   
 
     handleMenuButtonClick(){
         this.props.setMenuStates();
@@ -138,7 +134,6 @@ class Game extends Component {
 
         await updateDoc(docRef, {answered_players: arrayUnion(this.state.player_name)})
 
-
         if (answers.includes(choice)){
             await updateDoc(docRef, {
                 scores : this.state.question_points}
@@ -148,7 +143,6 @@ class Game extends Component {
 
             this.calculateWinner();
         }
-        
     }
 
 
@@ -156,10 +150,12 @@ class Game extends Component {
         this.setState({answered:false});
     }
 
+
     getQ(){
         var val = "q" + this.state.curr_num;
         return val;
     }
+
 
     render() {
 
@@ -215,28 +211,24 @@ class Game extends Component {
                         <div className='question-info'> 
 
                             <h2>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h2> 
-                            {/* <span id="countdowntimer">10 </span> */}
-
                             <h3>{this.state.player_name} (YOU) vs {this.state.curr_matchup}</h3>
 
-                        
                         </div>
                         
                         <div className='game-answers'>
-                            <div>
+                            <div className='answers-row-1'>
                                 <button className='buttona1' onClick={() => this.handleAnswerClick(1)}> </button>
                                 <button className='buttona2' onClick={() => this.handleAnswerClick(2)}> </button>
     
                             </div>
                             
-                            <div>
+                            <div className='answers-row-2'>
                                 <button className='buttona3' onClick={() => this.handleAnswerClick(3)}> </button>
                                 <button className='buttona4' onClick={() => this.handleAnswerClick(4)}> </button>
     
                             </div>
                         </div>
                     </div>
-                
                 );
             }
             else{
