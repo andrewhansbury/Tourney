@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { doc,  updateDoc, increment, onSnapshot } from "firebase/firestore";
+import { doc,  updateDoc, increment, onSnapshot, arrayUnion, Timestamp } from "firebase/firestore";
 import Ranking from './Ranking';
 import { db } from './firebase';
 import Timer from 'easytimer.js';
@@ -20,8 +20,19 @@ class Host extends Component {
             timer_done: false,
             everyone_answered : false,
 
+            
+
             timer : new Timer()
         }
+    }
+
+    async setAnswerTime(player, val){
+
+        console.log("setting " + player )
+        const timeObj = {[player] : val};  
+        await updateDoc(this.state.docRef, {
+            answer_time : arrayUnion(timeObj)
+        });
     }
 
 
@@ -38,13 +49,40 @@ class Host extends Component {
             });
         }
         
-        const updateState = () => {
+        const updateState = async () => {
             this.setState({timer_done:true});
+            var players = this.state.game_data.players
+            console.log(this.state.answered_players)
+
+            for(const player in players){
+                if (!this.state.answered_players.includes(players[player])){
+                    console.log(players[player])
+
+                    await updateDoc(this.state.docRef, {answered_incorrectly : arrayUnion(players[player]), answered_players : arrayUnion(players[player])});
+                    this.setAnswerTime(players[player], 0);
+                }
+            }
         }
 
         timer.addEventListener('targetAchieved', function (e){
             updateState();
+            timer.stop();
         });
+    }
+
+
+    correctNum(){
+        var questions = this.state.game_data.questions[this.getQ()]
+        var answers =  questions.answers
+        var correctNum = questions.correct_answers[0]
+        return correctNum;
+    }
+    correctAnswer(){
+        var questions = this.state.game_data.questions[this.getQ()]
+        var answers =  questions.answers
+        var correctNum = questions.correct_answers[0]
+
+        return answers[correctNum -1]
     }
 
     getQ(){
@@ -91,18 +129,21 @@ class Host extends Component {
     }
 
 
-    componentDidMount(){
-
+    async componentDidMount(){
+        
         onSnapshot(
             doc(db, "question_banks", this.props.game_code), 
             { includeMetadataChanges: true }, 
             (doc) => {
 
+            this.setState({game_data : doc.data()})
             this.setState({answered_players: doc.data().answered_players})
-    
+            this.setState({curr_num: doc.data().curr_num})
         });
 
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
+
+            
     }
 
 
@@ -112,13 +153,14 @@ class Host extends Component {
         if (this.state.loading){
             return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
         }
+    
         
         else if (!this.state.timer_done && this.state.answered_players.length < this.state.game_data.players.length){ 
             return (
-            <div>
+            <div className='q-container'>
                 <div className='question-info'> 
                 <h3>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h3> 
-                <span id="countdowntimer"> {this.state.game_data.questions[this.getQ()].seconds} </span>
+                <p id="countdowntimer"> {this.state.game_data.questions[this.getQ()].seconds} </p>
                 
                 </div>
                 
@@ -144,7 +186,10 @@ class Host extends Component {
                 
             return (
                 <Ranking game_code={this.props.game_code} docRef ={this.props.docRef} game_data={this.props.game_data}
-                 nextQuestion={this.nextQuestion.bind(this)} stopTimer = {this.stopTimer.bind(this)} setLoading={this.setLoading.bind(this)} />
+                 nextQuestion={this.nextQuestion.bind(this)} 
+                correct = {this.correctAnswer()}
+                correctNum = {this.correctNum()}
+                 stopTimer = {this.stopTimer.bind(this)} setLoading={this.setLoading.bind(this)} />
             )}
     }
 }

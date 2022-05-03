@@ -33,7 +33,7 @@ class RankTable extends Component {
 	}
 
     componentDidMount(){
-        this.props.calculateWinners();
+        // this.props.calculateWinners();
     }
 
 

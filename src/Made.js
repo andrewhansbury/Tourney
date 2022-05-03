@@ -33,6 +33,7 @@ class Made extends Component {
         }
         else {
             this.props.setGameCode(this.state.game_code);
+            
             this.props.setHostStates();
         }
     }

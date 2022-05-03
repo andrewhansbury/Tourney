@@ -1,3 +1,4 @@
+import { updateDoc } from 'firebase/firestore';
 import React, { Component } from 'react';
 
 class PostQ extends Component {
@@ -14,9 +15,13 @@ class PostQ extends Component {
                 <h2>You lost!</h2>
             )
         }
+        else if( this.props.game_data.losers.includes(this.props.player_name) && this.props.game_data.matchup_losers.includes(this.props.player_name)  && this.props.feedback === "Correct"){
+            return (<h2>You Beat Your Opponent!</h2>)
+        }
+        
         else if (this.props.game_data.losers.includes(this.props.player_name) && this.props.feedback === "Correct"){
             return (
-                <h2>But You Still Lost the Round!</h2>
+                <h2>But Your Opponent Was Faster, You Lost the Round!</h2>
             )
         }
         else if (this.props.game_data.matchup_winner.includes(this.props.player_name) && this.props.feedback === "Incorrect"){
@@ -26,8 +31,9 @@ class PostQ extends Component {
         }
 
         else{
+            
             return (
-                <h2>You Won The Round!</h2>
+                <h2>You Won The Round, You're Still in the Tourney!!</h2>
             )
         }
     }
@@ -42,7 +48,9 @@ class PostQ extends Component {
             return (<h1>Loading...</h1>);
         }
 
-        return (<div>
+        return (
+        
+        <div className='feedback'>
             <h1>{this.props.feedback}!</h1>
             {this.renderWinLoss()}
         </div>)

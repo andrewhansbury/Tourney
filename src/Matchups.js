@@ -10,7 +10,7 @@ class Matchups extends Component {
         this.state = {
             loading : true,
             matchups : null,
-            matchups_losers : null,
+            losers_matchups : null,
 
             winners : props.players,
             losers : props.losers,
@@ -60,7 +60,7 @@ class Matchups extends Component {
             var matches_losers = this.createMatchups(this.state.losers)
 
         this.setState({matchups : matches});
-        this.setState({matchups_losers : matches_losers});
+        this.setState({losers_matchups : matches_losers});
 
 
         const matches_obj = Object.assign({}, matches);
@@ -68,7 +68,7 @@ class Matchups extends Component {
 
         await updateDoc(this.state.docRef, {
             matchups: matches_obj,
-            matchups_losers : matches_loser_obj
+            losers_matchups : matches_loser_obj
         });
 
         this.setState({loading : false});

@@ -1,0 +1,50 @@
+Date : 2022-05-03 11:47:17
+Directory : c:\Code\Tourney\src
+Total : 25 files,  1886 codes, 102 comments, 633 blanks, all 2621 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         17 |      1,363 |         95 |        531 |      1,989 |
+| CSS        |          8 |        523 |          7 |        102 |        632 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------+------------+------------+------------+------------+------------+
+| path                                 | files      | code       | comment    | blank      | total      |
++--------------------------------------+------------+------------+------------+------------+------------+
+| .                                    |         25 |      1,886 |        102 |        633 |      2,621 |
++--------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------+------------+------------+------------+------------+------------+
+| filename                             | language   | code       | comment    | blank      | total      |
++--------------------------------------+------------+------------+------------+------------+------------+
+| c:\Code\Tourney\src\Answer.css       | CSS        |         13 |          0 |          1 |         14 |
+| c:\Code\Tourney\src\Answer.js        | JavaScript |         36 |          0 |          6 |         42 |
+| c:\Code\Tourney\src\App.js           | JavaScript |         75 |          0 |         45 |        120 |
+| c:\Code\Tourney\src\Create.css       | CSS        |         89 |          1 |         14 |        104 |
+| c:\Code\Tourney\src\Create.js        | JavaScript |        232 |         13 |         96 |        341 |
+| c:\Code\Tourney\src\CreateDecider.js | JavaScript |         47 |          2 |         20 |         69 |
+| c:\Code\Tourney\src\Game.css         | CSS        |        113 |          0 |         24 |        137 |
+| c:\Code\Tourney\src\Game.js          | JavaScript |        193 |         13 |         64 |        270 |
+| c:\Code\Tourney\src\Host.css         | CSS        |         30 |          0 |          4 |         34 |
+| c:\Code\Tourney\src\Host.js          | JavaScript |        130 |          0 |         47 |        177 |
+| c:\Code\Tourney\src\Made.css         | CSS        |         20 |          0 |          4 |         24 |
+| c:\Code\Tourney\src\Made.js          | JavaScript |         64 |          4 |         23 |         91 |
+| c:\Code\Tourney\src\Matchups.js      | JavaScript |         71 |          1 |         27 |         99 |
+| c:\Code\Tourney\src\Menu.js          | JavaScript |         87 |          0 |         33 |        120 |
+| c:\Code\Tourney\src\PostQ.css        | CSS        |          4 |          0 |          2 |          6 |
+| c:\Code\Tourney\src\PostQ.js         | JavaScript |         48 |         18 |         13 |         79 |
+| c:\Code\Tourney\src\PreHost.css      | CSS        |         65 |          2 |         15 |         82 |
+| c:\Code\Tourney\src\PreHost.js       | JavaScript |        104 |          2 |         43 |        149 |
+| c:\Code\Tourney\src\Question.js      | JavaScript |         64 |          8 |         25 |         97 |
+| c:\Code\Tourney\src\RankTable.js     | JavaScript |         40 |          4 |         12 |         56 |
+| c:\Code\Tourney\src\Ranking.js       | JavaScript |         95 |          4 |         32 |        131 |
+| c:\Code\Tourney\src\app.css          | CSS        |        189 |          4 |         38 |        231 |
+| c:\Code\Tourney\src\bracket.js       | JavaScript |         47 |          3 |         27 |         77 |
+| c:\Code\Tourney\src\firebase.js      | JavaScript |         13 |         19 |         13 |         45 |
+| c:\Code\Tourney\src\index.js         | JavaScript |         17 |          4 |          5 |         26 |
+| Total                                |            |      1,886 |        102 |        633 |      2,621 |
++--------------------------------------+------------+------------+------------+------------+------------+

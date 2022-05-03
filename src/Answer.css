@@ -1,0 +1,21 @@
+.q_answer{
+    height: 100%;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.q_answer h1{
+    font-size: 3vw;
+    margin: 0;
+}
+.q_answer h2{
+    
+    font-size: 2.5vw;
+    width: 50%;
+
+    text-align: center;
+}

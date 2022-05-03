@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { doc, getDoc} from "firebase/firestore";
+import { doc, getDoc, onSnapshot} from "firebase/firestore";
 import { db } from './firebase';
 import { BeatLoader } from 'react-spinners';
 
@@ -9,7 +9,8 @@ class Menu extends Component{
         super(props);
 		this.state = {
 			loading : false,
-			game_code: null
+			game_code: null,
+			players : null
 		}
     }
 
@@ -41,8 +42,9 @@ class Menu extends Component{
 			alert("This game doesn't exist!");
 			this.setState({loading: false});
 			return;
-
 		}
+
+
 
 		this.props.setGameCode(this.state.game_code);		
 		this.props.setBankName(docSnap.data().bank_name);		

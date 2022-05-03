@@ -22,7 +22,6 @@
 }
 
 #countdowntimer {
-  font-size: 20px;
   font-weight: bolder;
 }
 
@@ -30,4 +29,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.game-over{
+  text-align: center;
 }

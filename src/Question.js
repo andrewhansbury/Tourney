@@ -21,9 +21,11 @@ class Question extends Component {
 
 
     async handleAnswerClick(num){
+        
         this.state.timer.pause();
         this.props.setAnswerTime(this.state.timer.getTimeValues().toString(['seconds', 'secondTenths']));
-
+        this.state.timer.stop();
+        
         this.props.handleAnswerClick(num);
     }
 
@@ -33,26 +35,34 @@ class Question extends Component {
     }
 
     async setIncorrectAnswer(){
+        this.props.setFeedbackFalse();
         await updateDoc(this.state.docRef, {
             answered_incorrectly : arrayUnion(this.state.player_name)});
     }
 
     componentDidMount(){
+        console.log("QUESTION MOUNTED")
 
         var timer = this.state.timer;
         var numSeconds = this.state.game_data.questions[this.getQ()].seconds;
         timer.start({countdown:true, startValues:{seconds:numSeconds}, precision:'secondTenths'});
         
         const incorrectAnswer = () => {
+            console.log("HIT HIT")
             this.setIncorrectAnswer();
         }
 
-        const setTime = (numSeconds) => {
-            this.props.setAnswerTime(numSeconds);
-        }
+        // const setTime = (numSeconds) => {
+        //     this.props.setAnswerTime(numSeconds);
+        // }
         timer.addEventListener('targetAchieved', function (e) {
-            setTime(0);
-            incorrectAnswer();
+            this.props.setFeedbackFalse();
+            // if (!this.state.game_data.show_question){
+            //     setTime(0);
+            //     timer.stop();
+            //     incorrectAnswer();
+            // }
+           
         });
 
     }

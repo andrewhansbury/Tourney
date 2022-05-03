@@ -6,6 +6,9 @@ import './PreHost.css';
 import './Made.css';
 import './Host.css';
 import './Game.css';
+import './PostQ.css';
+import './Answer.css';
+
 import App from './App';
 
 

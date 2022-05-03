@@ -48,7 +48,9 @@ class Game extends Component {
 		}
 	}
 
-
+    setFeedbackFalse(){
+        this.setState({feedback : "Incorrect"})
+    }
 
     async handleJoinButtonClick(){
         if (this.state.player_name === ""){
@@ -92,18 +94,6 @@ class Game extends Component {
         }
     }
 
-    async calculateWinner(){
-        console.log("Calculating winner");
-
-        if (this.state.matchup_id in this.state.game_data.matchup_winner){
-            return;
-        }
-        else{
-            await updateDoc(this.state.docRef, {
-                ["matchup_winner." + this.state.matchup_id]: this.state.player_name
-              });
-        }
-    }
 
 
     componentDidMount(){
@@ -122,7 +112,7 @@ class Game extends Component {
                 this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups)});
             }
             else{
-                this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups_losers)})
+                this.setState({curr_matchup : this.getMatchup(this.state.game_data.losers_matchups)})
             }
 
         });
@@ -135,7 +125,7 @@ class Game extends Component {
     //         this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups)});
     //     }
     //     else{
-    //         this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups_losers)})
+    //         this.setState({curr_matchup : this.getMatchup(this.state.game_data.losers_matchups)})
     //     }
     // }
    
@@ -145,6 +135,7 @@ class Game extends Component {
     }
 
     async setAnswerTime(val){
+        console.log("from game!!!")
         const timeObj = {[this.state.player_name] : val};  
         await updateDoc(this.state.docRef, {
             answer_time : arrayUnion(timeObj)
@@ -249,6 +240,7 @@ class Game extends Component {
                     player_name = {this.state.player_name}
                     curr_matchup = {this.state.curr_matchup}
                     setAnswerTime = {this.setAnswerTime.bind(this)}
+                    setFeedbackFalse = {this.setFeedbackFalse.bind(this)}
                     handleAnswerClick = {this.handleAnswerClick.bind(this)} />
                 )
             

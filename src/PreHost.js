@@ -38,7 +38,7 @@ class PreHost extends Component {
     }
 
 
-    componentDidMount(){
+    async componentDidMount(){
         this.getGameData()
 
         // const docRef = doc(db, "question_banks", this.props.game_code);
@@ -49,19 +49,34 @@ class PreHost extends Component {
               this.setState({game_data: doc.data()})
             }
         );
+
+        console.log("moounted")
+        await updateDoc(this.state.docRef,{
+            answer_time : [],
+            answered_correctly : [],
+            answered_incorrectly : [],
+            answered_players : [],
+            matchup_winner : [],
+            matchup_losers : [],
+            losers: [],
+            losers_matchups: [],
+            matchups : [],
+            curr_num:1
+        })
+
     }
 
 
     getRemainingPlayers(){
-        return 2 - this.state.game_data.players.length
+        return 16 - this.state.game_data.players.length
     }
 
 
     async matchupsButtonClick(){
-        if (this.state.game_data.players.length !== 2){
-            alert("You need exactly 2 players to start the game!")
-            return;
-        }
+        // if (this.state.game_data.players.length !== 4){
+        //     alert("You need exactly 4 players to start the game!")
+        //     return;
+        // }
 
         if (this.state.game_data.players.length < 2){
             alert("You need at least 2 players to play!");

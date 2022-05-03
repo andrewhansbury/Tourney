@@ -26,6 +26,18 @@ body {
   align-items: center;
 }
 
+h1{
+  font-size: 5vh;
+}
+
+
+
+h2{font-size: 4vh;}
+
+p{
+  font-size: 4vh;
+}
+
 .App {
   display: flex;
   flex-direction: column;
