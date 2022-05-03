@@ -4,13 +4,15 @@ import { doc, updateDoc, arrayUnion, onSnapshot, increment } from "firebase/fire
 import { db } from './firebase';
 import { BarLoader, HashLoader, BeatLoader } from 'react-spinners';
 import PostQ from './PostQ';
+import Question from './Question';
+
 
 class Game extends Component {
     constructor(props){
         super(props);
         this.state = {
             loading : true,
-            gameRef : null,
+            docRef : null,
 
             game_code: props.game_code,
             bank_name : props.bank_name,
@@ -25,11 +27,11 @@ class Game extends Component {
             
             matchup_id : null,
             curr_matchup : "No one! (Bye Round)",
-            feedback : null,
+            feedback : "Incorrect",
             answered : false,
             wins : 0,
             losses : 0,
-            question_points: 50
+            question_points: 50,
             
         };
     }
@@ -46,18 +48,25 @@ class Game extends Component {
 		}
 	}
 
-    
+
+
     async handleJoinButtonClick(){
         if (this.state.player_name === ""){
             alert("Your name can't be blank!");
             return;
         }
+
+        if (this.state.game_data.players >= 4){
+            alert("Game is full!");
+            return;
+        }
+
         this.setState({loading : true});
         
-        const gameRef = doc(db, "question_banks", this.state.game_code);
-        this.setState({gameRef : gameRef});
+        const docRef = doc(db, "question_banks", this.state.game_code);
+        this.setState({docRef : docRef});
         
-        await updateDoc(gameRef, {
+        await updateDoc(docRef, {
             players: arrayUnion(this.state.player_name),
   
         });
@@ -67,21 +76,17 @@ class Game extends Component {
     }
 
 
-    getMatchup (){
-
-        const matchups = this.state.game_data.matchups; 
+    getMatchup (matchups){
 
         for (const index in matchups){
             const pos = matchups[index].indexOf(this.state.player_name)
            if(pos !== -1){
                this.setState({matchup_id : index})
                 if (pos === 0){
-                    
                     return matchups[index][1];
                 }
                 else{
                     return matchups[index][0];
-
                 }               
            } 
         }
@@ -94,7 +99,7 @@ class Game extends Component {
             return;
         }
         else{
-            await updateDoc(this.state.gameRef, {
+            await updateDoc(this.state.docRef, {
                 ["matchup_winner." + this.state.matchup_id]: this.state.player_name
               });
         }
@@ -112,36 +117,66 @@ class Game extends Component {
             this.setState({started:  doc.data().started});
             this.setState({curr_num:  doc.data().curr_num});
             this.setState({show_question : doc.data().show_question});
-            this.setState({curr_matchup : this.getMatchup()});
+
+            if (!this.state.game_data.losers.includes(this.state.player_name)){
+                this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups)});
+            }
+            else{
+                this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups_losers)})
+            }
 
         });
 
         this.setState({loading: false});
     }
+
+    // componentWillUnmount(){
+    //     if (!this.state.game_data.losers.includes(this.state.player_name)){
+    //         this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups)});
+    //     }
+    //     else{
+    //         this.setState({curr_matchup : this.getMatchup(this.state.game_data.matchups_losers)})
+    //     }
+    // }
    
 
     handleMenuButtonClick(){
         this.props.setMenuStates();
     }
 
+    async setAnswerTime(val){
+        const timeObj = {[this.state.player_name] : val};  
+        await updateDoc(this.state.docRef, {
+            answer_time : arrayUnion(timeObj)
+        });
+    }
+
 
     async handleAnswerClick(choice){
-        this.setState({answered : true})
+        this.setState({answered : true});
         
-
         const answers = this.state.game_data.questions[this.getQ()].correct_answers;
-        const docRef  = doc(db, "question_banks", this.props.game_code);
+        const docRef  = this.state.docRef
 
-        await updateDoc(docRef, {answered_players: arrayUnion(this.state.player_name)})
+        await updateDoc(docRef, {answered_players: arrayUnion(this.state.player_name)});
 
         if (answers.includes(choice)){
             await updateDoc(docRef, {
-                scores : this.state.question_points}
-            );
+                answered_correctly : arrayUnion(this.state.player_name)
+            });
             this.setState({feedback : "Correct"})
-            this.setState({wins:this.state.wins+1})
+            // await updateDoc(docRef, {
+            //     scores : this.state.question_points}
+            // );
+            // this.setState({wins:this.state.wins+1})
 
-            this.calculateWinner();
+            // this.calculateWinner();
+        }
+        else{
+            await updateDoc(docRef, {
+                answered_incorrectly : arrayUnion(this.state.player_name)
+            });
+            this.setState({feedback : "Incorrect"})
         }
     }
 
@@ -206,30 +241,17 @@ class Game extends Component {
         else if (this.state.show_question === true){
 
             if (this.state.answered === false){
-                return(
-                    <div className='game-container'>
-                        <div className='question-info'> 
-
-                            <h2>Question {this.state.curr_num}/{Object.keys(this.state.game_data.questions).length}</h2> 
-                            <h3>{this.state.player_name} (YOU) vs {this.state.curr_matchup}</h3>
-
-                        </div>
-                        
-                        <div className='game-answers'>
-                            <div className='answers-row-1'>
-                                <button className='buttona1' onClick={() => this.handleAnswerClick(1)}> </button>
-                                <button className='buttona2' onClick={() => this.handleAnswerClick(2)}> </button>
-    
-                            </div>
-                            
-                            <div className='answers-row-2'>
-                                <button className='buttona3' onClick={() => this.handleAnswerClick(3)}> </button>
-                                <button className='buttona4' onClick={() => this.handleAnswerClick(4)}> </button>
-    
-                            </div>
-                        </div>
-                    </div>
-                );
+                return (
+                    <Question
+                    curr_num = {this.state.curr_num}
+                    game_data = {this.state.game_data}
+                    docRef = {this.state.docRef}
+                    player_name = {this.state.player_name}
+                    curr_matchup = {this.state.curr_matchup}
+                    setAnswerTime = {this.setAnswerTime.bind(this)}
+                    handleAnswerClick = {this.handleAnswerClick.bind(this)} />
+                )
+            
             }
             else{
                 return (
@@ -246,8 +268,8 @@ class Game extends Component {
         else{
             return (
 
-                <PostQ feedback = {this.state.feedback} setAnweredFalse={this.setAnweredFalse.bind(this)}
-                wins= {this.state.wins} losses={this.state.losses} />
+                <PostQ game_data = {this.state.game_data} feedback = {this.state.feedback} next_matchup={this.state.curr_matchup} setAnweredFalse={this.setAnweredFalse.bind(this)}
+                wins= {this.state.wins} losses={this.state.losses} player_name = {this.state.player_name}/>
 
             );
         }

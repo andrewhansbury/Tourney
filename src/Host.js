@@ -3,6 +3,8 @@ import { doc,  updateDoc, increment, onSnapshot } from "firebase/firestore";
 import Ranking from './Ranking';
 import { db } from './firebase';
 import Timer from 'easytimer.js';
+import { BeatLoader } from 'react-spinners';
+
 
 class Host extends Component {
     constructor(props){
@@ -13,12 +15,12 @@ class Host extends Component {
             docRef : this.props.docRef,
             
             answered_players : [],
+            loading : false,
 
             timer_done: false,
             everyone_answered : false,
 
             timer : new Timer()
-
         }
     }
 
@@ -33,13 +35,9 @@ class Host extends Component {
         if (exists){
             timer.addEventListener('secondsUpdated', function (e) {
                 document.getElementById("countdowntimer").innerHTML = timer.getTotalTimeValues().seconds;
-
             });
-
         }
-
         
-
         const updateState = () => {
             this.setState({timer_done:true});
         }
@@ -47,7 +45,6 @@ class Host extends Component {
         timer.addEventListener('targetAchieved', function (e){
             updateState();
         });
-    
     }
 
     getQ(){
@@ -61,24 +58,38 @@ class Host extends Component {
 
     stopTimer(){
         this.state.timer.stop();
-
     }
    
     async nextQuestion(){
         this.setState({curr_num : this.state.curr_num+1 })
         this.setState({timer_done : false})
 
+        await updateDoc(this.state.docRef,{
+            answer_time : [],
+            answered_correctly : [],
+            answered_incorrectly : [],
+            answered_players : [],
+            matchup_winner : [],
+            matchup_losers : [],
+        })
+
         const docRef = this.state.docRef;
         console.log("next question")
         await updateDoc(docRef, {curr_num: increment(1), show_question: true, answered_players: [] });
 
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
-
     }
+
 
     updateMatchups(){
 
     }
+
+    setLoading(bool){
+    
+        this.setState({loading : bool});
+    }
+
 
     componentDidMount(){
 
@@ -92,17 +103,17 @@ class Host extends Component {
         });
 
         this.questionTimer(this.state.game_data.questions[this.getQ()].seconds);
-
-
-        
     }
 
 
    
     render() {
-    
+
+        if (this.state.loading){
+            return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
+        }
         
-        if (!this.state.timer_done && this.state.answered_players.length < this.state.game_data.players.length){ 
+        else if (!this.state.timer_done && this.state.answered_players.length < this.state.game_data.players.length){ 
             return (
             <div>
                 <div className='question-info'> 
@@ -111,9 +122,7 @@ class Host extends Component {
                 
                 </div>
                 
-                
                 <h1>{this.state.game_data.questions[this.getQ()].question}</h1>
-
                 
                 <div className='answers'>
                     <div>
@@ -129,18 +138,14 @@ class Host extends Component {
                     </div>
                 </div>
 
-                
             </div>
         )}
             else{
-
-                return (
-                <Ranking game_code={this.props.game_code} game_data={this.props.game_data}
-                 nextQuestion={this.nextQuestion.bind(this)} stopTimer = {this.stopTimer.bind(this)} />
+                
+            return (
+                <Ranking game_code={this.props.game_code} docRef ={this.props.docRef} game_data={this.props.game_data}
+                 nextQuestion={this.nextQuestion.bind(this)} stopTimer = {this.stopTimer.bind(this)} setLoading={this.setLoading.bind(this)} />
             )}
-        
-    
-        
     }
 }
 

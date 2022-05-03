@@ -3,8 +3,8 @@ import { doc, onSnapshot, getDoc, updateDoc} from "firebase/firestore";
 // import {onValue} from 'firebase/database'
 import { db } from './firebase';
 import { PropagateLoader, BeatLoader } from 'react-spinners';
-import Brackety from './bracket';
 import Host from './Host'
+import Matchups from './Matchups';
 
 
 class PreHost extends Component {
@@ -17,12 +17,13 @@ class PreHost extends Component {
             game_data : null,
             matchups : null,
 
+
             show_lobby : true,
             show_matchups : false,
             started : false
-               
         }
     }
+
 
     async getGameData(){
         this.setState({loading: true})
@@ -31,13 +32,11 @@ class PreHost extends Component {
         const docSnap = await getDoc(docRef);
         let data = docSnap.data();
        
-        
         this.setState({game_data: data});
         this.setState({loading: false})
         
     }
 
-  
 
     componentDidMount(){
         this.getGameData()
@@ -47,60 +46,33 @@ class PreHost extends Component {
             doc(db, "question_banks", this.props.game_code), 
             { includeMetadataChanges: true }, 
             (doc) => {
-
               this.setState({game_data: doc.data()})
-            });
+            }
+        );
     }
 
+
+    getRemainingPlayers(){
+        return 2 - this.state.game_data.players.length
+    }
+
+
     async matchupsButtonClick(){
+        if (this.state.game_data.players.length !== 2){
+            alert("You need exactly 2 players to start the game!")
+            return;
+        }
+
         if (this.state.game_data.players.length < 2){
             alert("You need at least 2 players to play!");
             return;
         }
-        var matches = this.createMatchups(this.state.game_data.players);
-        this.setState({matchups : matches})
 
         this.setState({show_lobby : false});
         this.setState({show_matchups : true});
-
-        const matches_obj = Object.assign({}, matches);
-        await updateDoc(this.state.docRef, {
-            matchups: matches_obj
-        });
-
+ 
     }
 
-    createMatchups(players){
-    
-        this.shuffle(players);
-        var groups = [];
-    
-        for (var i =0; i<players.length; i+=2){
-          groups.push(players.slice(i,i+2));
-        }
-        
-        // Checking for uneven matchup (last elem in arr)
-        if (groups[groups.length -1].length === 1){
-            groups[groups.length -1].push("");
-        }
-    
-        return groups;
-    
-      }
-
-    shuffle(arr) {
-        for (var i = 0; i < arr.length; i++) {
-            var x = Math.floor(Math.random() * arr.length);
-            var y = Math.floor(Math.random() * arr.length);
-            if (x === y) { //for dont change arr[index] with self !!!
-                continue;
-            }
-            var temp0 = arr[x];
-            arr[x] = arr[y];
-            arr[y] = temp0;
-        }
-        return arr
-    }
 
     
 
@@ -112,13 +84,10 @@ class PreHost extends Component {
             started: true,
             show_question : true
         });
-
     }
-
 
  
     render() {
-
 
         if (this.state.loading){
             return ( <h1 color='#A2C1FA'>Loading... <BeatLoader color='#A2C1FA'/></h1> );
@@ -130,7 +99,7 @@ class PreHost extends Component {
 
                 <div className='Waiting-container'>
                     <div className='top-text'>
-                        <h1 className='made'> Waiting for players!</h1> 
+                        <h1 className='made'> Waiting for {this.getRemainingPlayers()} more players!</h1> 
                         <h2>Join at: {this.props.game_code}</h2>
                         <div>
                             <PropagateLoader color='#A2C1FA'/>
@@ -141,13 +110,13 @@ class PreHost extends Component {
                     <div className='players'>
                         {this.state.game_data.players.map(
                             (player, index) => <li className='animate pulse' key ={index}>{player}</li>
-                            )}
+                        )}
                     </div>
 
                     <div></div>
 
                     <div className='matchup-button'>
-                    <button className='join-button btn-hover' onClick = {() => {this.matchupsButtonClick()}}> Show Matchups! </button>
+                        <button className='join-button btn-hover' onClick = {() => {this.matchupsButtonClick()}}> Show Matchups! </button>
                     </div>
                 </div>
             );
@@ -156,26 +125,18 @@ class PreHost extends Component {
         else if (this.state.show_matchups === true){
             
             return (
-              
-                <div className='matchup-container'>
-
-                    <h1>Matchups!</h1>
-                    <Brackety matchups={this.state.matchups}/>
-
-                    <div className='begin-button'>
-                        <button className='join-button btn-hover' onClick = {() => {this.beginButtonClick()}}> Begin! </button>
-                    </div>
-
-                </div>
+              <Matchups game_data = {this.state.game_data} nextButtonClick = {this.beginButtonClick.bind(this)} 
+              docRef={this.state.docRef} players= {this.state.game_data.players}
+              losers = {[]}
+              />
+                
             );
         }
 
         else if (this.state.started === true){
                 
             return (
-
                 <Host game_data = {this.state.game_data} game_code = {this.props.game_code} docRef = {this.state.docRef} />
-
             );
         }
     }
