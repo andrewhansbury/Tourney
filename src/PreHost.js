@@ -14,14 +14,16 @@ class PreHost extends Component {
         this.state = {
             loading : true,
             docRef: doc(db, "question_banks", this.props.game_code),
-            game_data : null,
+            game_data : {},
             matchups : null,
+
 
 
             show_lobby : true,
             show_matchups : false,
             started : false
         }
+        this.state.game_data.players = [];
     }
 
 
@@ -114,7 +116,7 @@ class PreHost extends Component {
 
                 <div className='Waiting-container'>
                     <div className='top-text'>
-                        <h1 className='made'> Waiting for {this.getRemainingPlayers()} more players!</h1> 
+                        <h1 className='made'> Waiting for  players!</h1> 
                         <h2>Join at: {this.props.game_code}</h2>
                         <div>
                             <PropagateLoader color='#A2C1FA'/>

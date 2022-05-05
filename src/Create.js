@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import {createTheme, Checkbox,  TextField, Select, FormControl, MenuItem, InputLabel,  } from '@mui/material';
+import { PropagateLoader} from 'react-spinners';
 
 
 
@@ -29,11 +30,14 @@ class Create extends Component {
             seconds : 10,
             question_bank: [],
             question_num : 1,
+            gameID : "",
+
+            loading : false
 
         }
         this.theme = createTheme({
             palette: {
-              mode: 'dark',
+              mode: 'white',
             },
           });
     };
@@ -106,6 +110,8 @@ class Create extends Component {
 
 	}
 
+    
+
 
 
 
@@ -158,7 +164,7 @@ class Create extends Component {
 
         // Dont add to database if theres an issue
         // with the question
-
+        this.setState({loading : true})
         //fix this so finished will create database entry if one question is 
         if (this.state.question !== "");
             if (this.handleAddButtonClick() === 1){
@@ -166,7 +172,6 @@ class Create extends Component {
             }
 
         //Change States to hosting screen
-        this.props.setHostStates();
             
 
         let gameID = String(Math.floor(100000 + Math.random()*900000));
@@ -184,6 +189,7 @@ class Create extends Component {
         while (gameID in ids){
             gameID = String(Math.floor(100000 + Math.random()*900000));
         } 
+        this.setState({gameID : gameID})
 
         
         //Creating the document in "question_banks"
@@ -193,7 +199,11 @@ class Create extends Component {
         for (const element of this.state.question_bank){
             this.addToDatabase(gameID, element);
         };
+        this.setState({loading:false})
+        this.props.setHostStates();
+
     }
+
 
 
     handleQuestionChange = (event) => {
@@ -256,6 +266,13 @@ class Create extends Component {
     
     
     render() {
+        if (this.state.loading){
+            return (
+                <PropagateLoader color='#A2C1FA'/>
+            );
+
+        }
+        else
         return (
             
            
